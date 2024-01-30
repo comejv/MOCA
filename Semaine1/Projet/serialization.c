@@ -31,6 +31,16 @@ struct json_object *createJSON(mot_data_t **d){
 }
 */
 
+int hash(char *m) {
+  int l = strlen(m);
+  int i, h;
+  h = 0;
+  for(i=0; i<l; i++)
+    h = h + (m[i]*pow(127, l-i-1));
+  h = h % MaxSizeArray;
+  return h;
+}
+
 void deserializeDico(dico** dic, mot_data_t *elt) {
   dico *temp = NULL;
   mot_t* newLinkWord = (mot_t*) malloc(sizeof(mot_t));

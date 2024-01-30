@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "word_tools.h"
-#include "structures.h"  
 
 char *next_word(FILE *f, unsigned int *nblin, unsigned int *nbcol){
   char s[100]; 

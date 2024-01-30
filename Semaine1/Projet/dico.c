@@ -1,6 +1,5 @@
 #include "dico_tools.h"
 #include "display.h"
-#include "hash.h"
 #include "serialization.h"
 #include "structures.h"
 #include "word_tools.h"

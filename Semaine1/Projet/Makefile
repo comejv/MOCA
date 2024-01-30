@@ -15,10 +15,9 @@ endif
 
 all : $(EXEC) 
 
-dico_tools.o : dico_tools.h structures.h word_tools.h hash.h
+dico_tools.o : dico_tools.h structures.h word_tools.h serialization.h
 display.o : display.h structures.h 
-hash.o : hash.h 
-serialization.o : serialization.h structures.h hash.h word_tools.h 
+serialization.o : serialization.h structures.h word_tools.h 
 word_tools.o : word_tools.h structures.h
 
 $(MAIN_OBJS): %.o : $(HEADERS)

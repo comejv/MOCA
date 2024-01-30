@@ -7,7 +7,7 @@
 
 #include "structures.h"
 #include "word_tools.h"
-#include "hash.h"
+#include "serialization.h"
 
 void insertDico(dico** dictionary, mot_t* linkWord);
 
