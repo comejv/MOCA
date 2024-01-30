@@ -20,7 +20,7 @@ display.o : display.h structures.h
 serialization.o : serialization.h structures.h word_tools.h 
 word_tools.o : word_tools.h structures.h
 
-$(MAIN_OBJS): %.o : $(HEADERS)
+$(MAIN_OBJS): $(HEADERS)
 
 dico : $(OBJS)
 	$(CC) $(OBJS) -lm -o $@
