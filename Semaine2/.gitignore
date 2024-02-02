@@ -1,6 +1,5 @@
 Projet/Exemples/
 Projet/Resultats/
-Projet/*.o
-Projet/dico
+Projet/objs/
 Projet/Documentation/html
 Projet/Documentation/latex
