@@ -10,8 +10,8 @@
 #include <stdlib.h>
 #include "structures.h"
 
-#define DICORES "Resultats/dictionnaires.txt"
-#define TEXTE "Exemples/hugo1.txt"
+#define DICORES "resultats/dictionnaires.txt"
+#define TEXTE "exemples/hugo1.txt"
 
 /**
  * \fn void displayWord(mot_data_t* word, FILE *filedes)

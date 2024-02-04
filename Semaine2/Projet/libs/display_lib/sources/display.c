@@ -26,7 +26,7 @@ void displayNodes(dico *d, FILE* f) {
 
 void displayDico(dico* dictionary) {
   FILE *f = NULL;
-  f = fopen(DICORES, "rw+");
+  f = fopen(DICORES, "w+");
   if (f == NULL) {
     fprintf(stderr, "Erreur d'ouverture du fichier %s\n", DICORES);
     exit(1);
