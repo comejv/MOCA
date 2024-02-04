@@ -1,10 +1,19 @@
 CC=gcc
 CFLAGS=-Wall -Werror
-SRCS=$(wildcard *.c)
-HEADERS=$(wildcard *.h)
-OBJS=$(SRCS:.c=.o)
-MAIN_OBJS=dico.o
-EXEC=$(MAIN_OBJS:.o=)
+CPPFLAGS=-I headers
+LDFLAGS=-lm
+
+SRCDIR=sources
+OBJDIR=objects
+HEADERSDIR=headers
+EXECDIR=.
+DOCDIR=Documentation
+
+SRCS=$(wildcard $(SRCDIR)/*.c)
+HEADERS=$(wildcard $(HEADERSDIR)/*.h)
+OBJS=$(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+MAIN_OBJS=$(OBJDIR)/dico.o
+EXEC=$(MAIN_OBJS:$(OBJDIR)/%.o=$(EXECDIR)/%)
 
 ifdef DEBUG 
 CFLAGS+=-g 
@@ -13,18 +22,25 @@ endif
 
 .PHONY : clean
 
-all : $(EXEC) 
+all : $(EXEC) doc
 
-dico_tools.o : dico_tools.h structures.h word_tools.h serialization.h
-display.o : display.h structures.h 
-serialization.o : serialization.h structures.h word_tools.h 
-word_tools.o : word_tools.h structures.h
+$(OBJDIR)/%.o:$(SRCDIR)/%.c
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+
+$(OBJDIR)/dico_tools.o : $(HEADERSDIR)/dico_tools.h $(HEADERSDIR)/structures.h $(HEADERSDIR)/word_tools.h $(HEADERSDIR)/serialization.h
+$(OBJDIR)/display.o : $(HEADERSDIR)/display.h $(HEADERSDIR)/structures.h 
+$(OBJDIR)/serialization.o : $(HEADERSDIR)/serialization.h $(HEADERSDIR)/structures.h $(HEADERSDIR)/word_tools.h 
+$(OBJDIR)/word_tools.o : $(HEADERSDIR)/word_tools.h $(HEADERSDIR)/structures.h
 
 $(MAIN_OBJS): $(HEADERS)
 
-dico : $(OBJS)
-	$(CC) $(OBJS) -lm -o $@
+$(EXECDIR)/dico : $(OBJS)
+	$(CC) $(OBJS) -o $@ $(LDFLAGS)
 
-clean : 
-	@echo "Nettoyage du répertoire courant"
-	-rm *.o $(EXEC)
+doc:
+	@echo "Création de la documentation dans le repertoire Documentation"
+	doxygen $(DOCDIR)/doxy-convert.conf 
+
+clean :
+	@echo "Nettoyage des fichiers objets, de ses exécutables et de la documentation"
+	-rm -r $(OBJDIR)/*.o $(EXEC) Documentation/*/
