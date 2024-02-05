@@ -1,75 +1,61 @@
-CC=gcc
-CFLAGS=-Wall -Werror
+CC := gcc
+CFLAGS := -Wall -Werror
 ifndef STATIC
-CFLAGS+=-fPIC
+CFLAGS += -fPIC
+LDFLAGS := -lm
 endif
-CPPFLAGS=-I display_lib/headers -I serialization_lib/headers -I ../headers 
-LDFLAGS=-lm
+CPPFLAGS := -I headers -I ../headers 
 
-# répertoires de la librairie display
-SRCDIR_DISPLAY=display_lib/sources
-HEADERSDIR_DISPLAY=display_lib/headers
-OBJDIR_DISPLAY=display_lib/objects
-LIBDIR_DISPLAY=display_lib/lib
+SRCDIR := sources
+OBJDIR := objects
+LIBDIR := libs
 
-# répertoires de la librairie serialization
-SRCDIR_SERIALIZATION=serialization_lib/sources
-HEADERSDIR_SERIALIZATION=serialization_lib/headers
-OBJDIR_SERIALIZATION=serialization_lib/objects
-LIBDIR_SERIALIZATION=serialization_lib/lib
+# Source files
+SRCS_DISPLAY := $(SRCDIR)/display.c
+SRCS_SERIALIZATION := $(SRCDIR)/serialization.c
+# Object files
+OBJS_DISPLAY := $(SRCS_DISPLAY:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+OBJS_SERIALIZATION := $(SRCS_SERIALIZATION:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
 
-# fichiers de la librairie display
-SRCS_DISPLAY=$(wildcard $(SRCDIR_DISPLAY)/*.c)
-HEADERS_DISPLAY=$(wildcard $(HEADERSDIR_DISPLAY)/*.h)
-OBJS_DISPLAY=$(SRCS_DISPLAY:$(SRCDIR_DISPLAY)/%.c=$(OBJDIR_DISPLAY)/%.o)
+# Check if STATIC is defined
 ifdef STATIC
-LIB_DISPLAY=$(LIBDIR_DISPLAY)/libdisplay.a
+LIB_EXT := .a
+AR := ar rs
 else
-LIB_DISPLAY=$(LIBDIR_DISPLAY)/libdisplay.so
+LIB_EXT := .so
+AR := $(CC) -shared -o
 endif
 
-# fichiers de la librairie serialization
-SRCS_SERIALIZATION=$(wildcard $(SRCDIR_SERIALIZATION)/*.c)
-HEADERS_SERIALIZATION=$(wildcard $(HEADERSDIR_SERIALIZATION)/*.h)
-OBJS_SERIALIZATION=$(SRCS_SERIALIZATION:$(SRCDIR_SERIALIZATION)/%.c=$(OBJDIR_SERIALIZATION)/%.o)
-ifdef STATIC 
-LIB_SERIALIZATION=$(LIBDIR_SERIALIZATION)/libserialization.a
-else
-LIB_SERIALIZATION=$(LIBDIR_SERIALIZATION)/libserialization.so
+ifdef DEBUG
+CFLAGS += -g 
+CPPFLAGS += -DDEBUG
 endif
 
-# librairies à générer
-LIBS=$(LIB_DISPLAY) $(LIB_SERIALIZATION)
+# Library names
+DISPLAY_LIB_NAME := $(LIBDIR)/libdisplay$(LIB_EXT)
+SERIALIZATION_LIB_NAME := $(LIBDIR)/libserialization$(LIB_EXT)
 
-.PHONY : clean
+.PHONY: clean
 
-all : $(LIBS) 
+# Default target
+all: ensureDirs $(DISPLAY_LIB_NAME) $(SERIALIZATION_LIB_NAME)
 
-$(OBJDIR_DISPLAY)/%.o : $(SRCDIR_DISPLAY)/%.c 
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+# Rule to make the display library
+$(DISPLAY_LIB_NAME): $(OBJS_DISPLAY)
+	$(AR) $@ $^ $(LDFLAGS)
 
-$(OBJDIR_SERIALIZATION)/%.o : $(SRCDIR_SERIALIZATION)/%.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+# Rule to make the serialization library
+$(SERIALIZATION_LIB_NAME): $(OBJS_SERIALIZATION)
+	$(AR) $@ $^ $(LDFLAGS)
 
-$(OBJDIR_DISPLAY)/display.o : $(HEADERSDIR_DISPLAY)/display.h ../headers/structures.h
-$(OBJDIR_SERIALIZATION)/serialization.o : $(HEADERSDIR_SERIALIZATION)/serialization.h ../headers/structures.h ../headers/word_tools.h
+ensureDirs:
+	@mkdir -p $(OBJDIR)
+	@mkdir -p $(LIBDIR)
 
-# librarie display
-$(LIB_DISPLAY) : $(OBJS_DISPLAY)
-ifdef STATIC
-	ar rs $@ $(OBJS_DISPLAY)
-else
-	$(CC) -shared $(OBJS_DISPLAY) -o $@ $(LDFLAGS)
-endif
+# Rule to make the object files
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
 
-# librairie serialization
-$(LIB_SERIALIZATION) : $(OBJS_SERIALIZATION)
-ifdef STATIC 
-	ar rs $@ $(OBJS_SERIALIZATION) 
-else
-	$(CC) -shared $(OBJS_SERIALIZATION) -o $@ $(LDFLAGS)
-endif
-
-clean : 
-	@echo "Nettoyage des fichiers objets et des librairies"
-	-rm -r $(OBJDIR_DISPLAY)/*.o $(OBJDIR_SERIALIZATION)/*.o $(LIBDIR_DISPLAY)/* $(LIBDIR_SERIALIZATION)/*
+# Rule to clean the workspace
+clean:
+	-rm -r $(OBJDIR) $(LIBDIR)
