@@ -1,13 +1,15 @@
 CC=gcc
 CFLAGS=-Wall -Werror
-CPPFLAGS=-I headers -I libs/display_lib/headers -I libs/serialization_lib/headers
-LDFLAGS=-lm 
+CPPFLAGS=-I headers -I libs/headers
 # -Wl,-rpath,libs/display_lib/lib -Wl,-rpath,libs/serialization_lib/lib ne semble pas fonctionner (cannot find -ldisplay, cannot find -lserialization)
+MAKEARGS=
 ifdef STATIC
-LDFLAGS+=-L libs/display_lib/lib -l:libdisplay.a -L libs/serialization_lib/lib -l:libserialization.a
+LIBEXT=.a
+MAKEARGS+=STATIC=1
 else
-LDFLAGS+=-L libs/display_lib/lib -l:libdisplay.so -L libs/serialization_lib/lib -l:libserialization.so
+LIBEXT=.so
 endif
+LDFLAGS=-L libs/libs -l:libdisplay$(LIBEXT) -l:libserialization$(LIBEXT) -lm
 
 SRCDIR=sources
 OBJDIR=objects
@@ -24,16 +26,17 @@ EXEC=$(MAIN_OBJS:$(OBJDIR)/%.o=$(EXECDIR)/%)
 ifdef DEBUG 
 CFLAGS+=-g 
 CPPFLAGS+=-DDEBUG
+MAKEARGS+=DEBUG=1
 endif
 
 .PHONY : clean
 
-all : lib $(EXEC) doc 
+all : lib ensureDirs $(EXEC) doc 
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
-$(OBJDIR)/dico_tools.o : $(HEADERSDIR)/dico_tools.h $(HEADERSDIR)/structures.h $(HEADERSDIR)/word_tools.h libs/serialization_lib/headers/serialization.h
+$(OBJDIR)/dico_tools.o : $(HEADERSDIR)/dico_tools.h $(HEADERSDIR)/structures.h $(HEADERSDIR)/word_tools.h libs/headers/serialization.h
 $(OBJDIR)/word_tools.o : $(HEADERSDIR)/word_tools.h $(HEADERSDIR)/structures.h
 
 $(MAIN_OBJS): $(HEADERS)
@@ -43,15 +46,16 @@ $(EXEC) : $(OBJS)
 
 lib:
 	@echo "Compilation des librairies"
-ifdef STATIC
-	cd libs && $(MAKE) clean && $(MAKE) STATIC=1
-else 
-	cd libs && $(MAKE) clean && $(MAKE)
-endif
+	cd libs && $(MAKE) clean && $(MAKE) $(MAKEARGS)
 
 doc:
 	@echo "Création de la documentation dans le repertoire documentation"
 	doxygen $(DOCDIR)/doxy-convert.conf 
+
+ensureDirs:
+	@mkdir -p $(OBJDIR)
+	@mkdir -p $(EXECDIR)
+	@mkdir -p $(DOCDIR)
 
 clean :
 	@echo "Nettoyage des fichiers objets, de ses exécutables et de la documentation"
