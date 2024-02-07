@@ -48,7 +48,7 @@ int compareWord(mot_data_t* w1, mot_data_t* w2);
  * \brief Fonction d'inclusion de l'emplacement d'un mot dans une séquence d'emplacements
  * \param location la liste chaînée d'emplacements où insérer le mot
  * \param line l'indice de ligne dans le texte du mot à ajouter 
- * \param nbcol l'indice de colonne dans le texte du mot à ajouter
+ * \param colonne l'indice de colonne dans le texte du mot à ajouter
  * \return Pas de valeur de retour
  * 
  * Cette fonction insère l'emplacement d'un mot (ligne, colonne) dans une séquence d'emplacements sous forme de liste chaînée. 
