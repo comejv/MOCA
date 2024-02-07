@@ -6,21 +6,26 @@ CC=gcc
 CFLAGS=-Wall -Werror
 # -I option used here to tell the compiler in which folders to search for the headers (main headers + libs headers)
 CPPFLAGS=-I headers -I libs/headers
-# -Wl,-rpath,libs/display_lib/lib -Wl,-rpath,libs/serialization_lib/lib doesn't seem to work (cannot find -ldisplay, cannot find -lserialization)
 MAKEARGS=
-# If STATIC is defined, we want to generate static libraries, whose name end with ".a"
-# Otherwise, we want to generate shared libraries, whose name end with ".so"
+
+# -Wl,-rpath,libs/libs/ add a directory to find our libraries (allows us to omit the use of "export LD_LIBRARY_PATH=./libs/libs/:$LD_LIBRARY_PATH")
+LDFLAGS=-Wl,-rpath,libs/libs/
+# If STATIC is defined, we want to generate static libraries, whose name end with ".a" and force a static link with libs display and serialization
+# Otherwise, we want to generate shared libraries, whose name end with ".so" and force a dynamic link with libs display and serialization
 ifdef STATIC
 LIBEXT=.a
+# Need to add -Wl,-Bdynamic after a -Wl,-Bstatic to turn off static linking because otherwise he would to find -lgcc_s but it didn't exist on our system
+LDFLAGS+=-Wl,-Bstatic -ldisplay -Wl,-Bdynamic -Wl,-Bstatic -lserialization -Wl,-Bdynamic
 MAKEARGS+=STATIC=1
 else
 LIBEXT=.so
+LDFLAGS+=-Wl,-Bdynamic -ldisplay -Wl,-Bdynamic -lserialization
 endif
 # Libraries specific options : 
 # -L to give the libraries path name
 # -l to give the name of libraries files (with the ":" syntax allowing us to specify the full name, including the right suffix depending on
 # whether we want to generate static or dynamic libraries)
-LDFLAGS=-L libs/libs -l:libdisplay$(LIBEXT) -l:libserialization$(LIBEXT) -lm
+LDFLAGS+=-L libs/libs -l:libdisplay$(LIBEXT) -l:libserialization$(LIBEXT) -lm
 
 # Directories for source files, object files, headers, executable files, and Doxygen documentation
 SRCDIR=sources
