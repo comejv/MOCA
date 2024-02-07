@@ -14,12 +14,9 @@ LDFLAGS=-Wl,-rpath,libs/libs/
 # Otherwise, we want to generate shared libraries, whose name end with ".so" and force a dynamic link with libs display and serialization
 ifdef STATIC
 LIBEXT=.a
-# Need to add -Wl,-Bdynamic after a -Wl,-Bstatic to turn off static linking because otherwise he would to find -lgcc_s but it didn't exist on our system
-LDFLAGS+=-Wl,-Bstatic -ldisplay -Wl,-Bdynamic -Wl,-Bstatic -lserialization -Wl,-Bdynamic
 MAKEARGS+=STATIC=1
 else
 LIBEXT=.so
-LDFLAGS+=-Wl,-Bdynamic -ldisplay -Wl,-Bdynamic -lserialization
 endif
 # Libraries specific options : 
 # -L to give the libraries path name
