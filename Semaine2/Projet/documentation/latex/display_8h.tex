@@ -1,0 +1,84 @@
+\hypertarget{display_8h}{}\doxysection{libs/headers/display.h File Reference}
+\label{display_8h}\index{libs/headers/display.h@{libs/headers/display.h}}
+
+
+Fonctions d\textquotesingle{}affichage d\textquotesingle{}objets (mot, dictionnaire)  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}structures.\+h\char`\"{}}\newline
+Include dependency graph for display.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=294pt]{display_8h__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{display_8h_aff03ef1d563e292c6c9e1be5dd68c201}\label{display_8h_aff03ef1d563e292c6c9e1be5dd68c201}} 
+\#define {\bfseries DICORES}~\char`\"{}resultats/dictionnaires.\+txt\char`\"{}
+\item 
+\mbox{\Hypertarget{display_8h_ac3ee2c6f99b228fe1f01b62f13a2b861}\label{display_8h_ac3ee2c6f99b228fe1f01b62f13a2b861}} 
+\#define {\bfseries TEXTE}~\char`\"{}exemples/hugo1.\+txt\char`\"{}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{display_8h_a8e328c9650e8ccc9daf113bbcf61299e}{display\+Word}} (\mbox{\hyperlink{structmot__data__t}{mot\+\_\+data\+\_\+t}} $\ast$word, FILE $\ast$filedes)
+\begin{DoxyCompactList}\small\item\em Fonction d\textquotesingle{}écriture du contenu d\textquotesingle{}une structure de mot dans un fichier. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{display_8h_a2673eae0d1e9bf3077be9b8d33166eba}\label{display_8h_a2673eae0d1e9bf3077be9b8d33166eba}} 
+void {\bfseries display\+Nodes} (\mbox{\hyperlink{structdico}{dico}} $\ast$d, FILE $\ast$f)
+\item 
+void \mbox{\hyperlink{display_8h_aa472c846337decf8fc2fb99700cfcbc3}{display\+Dico}} (\mbox{\hyperlink{structdico}{dico}} $\ast$dictionary)
+\begin{DoxyCompactList}\small\item\em Fonction de gestion d\textquotesingle{}un fichier pour y écrire le contenu d\textquotesingle{}une structure de dictionnaire. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Fonctions d\textquotesingle{}affichage d\textquotesingle{}objets (mot, dictionnaire) 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{display_8h_aa472c846337decf8fc2fb99700cfcbc3}\label{display_8h_aa472c846337decf8fc2fb99700cfcbc3}} 
+\index{display.h@{display.h}!displayDico@{displayDico}}
+\index{displayDico@{displayDico}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{displayDico()}{displayDico()}}
+{\footnotesize\ttfamily void display\+Dico (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structdico}{dico}} $\ast$}]{dictionary }\end{DoxyParamCaption})}
+
+
+
+Fonction de gestion d\textquotesingle{}un fichier pour y écrire le contenu d\textquotesingle{}une structure de dictionnaire. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dictionary} & la structure de dictionnaire (ABR) à afficher \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pas de valeur de retour
+\end{DoxyReturn}
+Cette fonction gère l\textquotesingle{}ouverture d\textquotesingle{}un fichier et les potentielles erreurs associées dans le but d\textquotesingle{}y écrire le contenu d\textquotesingle{}une structure de dictionnaire, avant d\textquotesingle{}appeler la fonction display\+Nodes. \mbox{\Hypertarget{display_8h_a8e328c9650e8ccc9daf113bbcf61299e}\label{display_8h_a8e328c9650e8ccc9daf113bbcf61299e}} 
+\index{display.h@{display.h}!displayWord@{displayWord}}
+\index{displayWord@{displayWord}!display.h@{display.h}}
+\doxysubsubsection{\texorpdfstring{displayWord()}{displayWord()}}
+{\footnotesize\ttfamily void display\+Word (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structmot__data__t}{mot\+\_\+data\+\_\+t}} $\ast$}]{word,  }\item[{FILE $\ast$}]{filedes }\end{DoxyParamCaption})}
+
+
+
+Fonction d\textquotesingle{}écriture du contenu d\textquotesingle{}une structure de mot dans un fichier. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em word} & la structure de mot (sans hash) \\
+\hline
+{\em filedes} & le fichier de destination \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pas de valeur de retour
+\end{DoxyReturn}
+Cette fonction écrit le contenu d\textquotesingle{}une structure de mot (\mbox{\hyperlink{structmot__data__t}{mot\+\_\+data\+\_\+t}}) dans un fichier \+: contenu du mot, ainsi que tous les couples (ligne, colonne) où le mot apparaît dans le texte. 
