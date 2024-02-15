@@ -1,0 +1,111 @@
+\hypertarget{serialization_8h}{}\doxysection{libs/headers/serialization.h File Reference}
+\label{serialization_8h}\index{libs/headers/serialization.h@{libs/headers/serialization.h}}
+
+
+Fonctions de conversion entre ABR (dictionnaire) et table de hachage.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}structures.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}word\+\_\+tools.\+h\char`\"{}}\newline
+Include dependency graph for serialization.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{serialization_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=228pt]{serialization_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{serialization_8h_a796e7597c2dd26a8ccda9a578ce97eca}\label{serialization_8h_a796e7597c2dd26a8ccda9a578ce97eca}} 
+\#define {\bfseries Max\+Size\+Array}~16381
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{serialization_8h_a43143651b855fcfa018e4abe9ed54b5e}{hash}} (char $\ast$m)
+\begin{DoxyCompactList}\small\item\em Fonction de calcul du hashcode d\textquotesingle{}un mot m. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{serialization_8h_ab31a61102af8de632953cd7a666cab65}{deserialize\+Dico}} (\mbox{\hyperlink{structdico}{dico}} $\ast$$\ast$dic, \mbox{\hyperlink{structmot__data__t}{mot\+\_\+data\+\_\+t}} $\ast$elt)
+\begin{DoxyCompactList}\small\item\em Fonction de désérialisation d\textquotesingle{}une structure de mot dans une structure de dictionnaire. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{serialization_8h_ad6454eb485e674630bde12d1adc062ab}{serialize\+Dico}} (\mbox{\hyperlink{structdico}{dico}} $\ast$dictionary, \mbox{\hyperlink{structmot__data__t}{mot\+\_\+data\+\_\+t}} $\ast$$\ast$table)
+\begin{DoxyCompactList}\small\item\em Fonction de sérialisation d\textquotesingle{}une structure de dictionnaire dans une table. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Fonctions de conversion entre ABR (dictionnaire) et table de hachage. 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{serialization_8h_ab31a61102af8de632953cd7a666cab65}\label{serialization_8h_ab31a61102af8de632953cd7a666cab65}} 
+\index{serialization.h@{serialization.h}!deserializeDico@{deserializeDico}}
+\index{deserializeDico@{deserializeDico}!serialization.h@{serialization.h}}
+\doxysubsubsection{\texorpdfstring{deserializeDico()}{deserializeDico()}}
+{\footnotesize\ttfamily void deserialize\+Dico (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structdico}{dico}} $\ast$$\ast$}]{dic,  }\item[{\mbox{\hyperlink{structmot__data__t}{mot\+\_\+data\+\_\+t}} $\ast$}]{elt }\end{DoxyParamCaption})}
+
+
+
+Fonction de désérialisation d\textquotesingle{}une structure de mot dans une structure de dictionnaire. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dic} & la structure de dictionnaire de destination \\
+\hline
+{\em elt} & la structure de mot à intégrer dans la structure de dictionnaire \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pas de valeur de retour
+\end{DoxyReturn}
+Cette fonction procède à la désérialisation d\textquotesingle{}une structure de mot dans une structure de dictionnaire (ABR), c\textquotesingle{}est-\/à-\/dire à l\textquotesingle{}insertion du mot dans l\textquotesingle{}arbre (de la même manière que insert\+Dico ?) \mbox{\Hypertarget{serialization_8h_a43143651b855fcfa018e4abe9ed54b5e}\label{serialization_8h_a43143651b855fcfa018e4abe9ed54b5e}} 
+\index{serialization.h@{serialization.h}!hash@{hash}}
+\index{hash@{hash}!serialization.h@{serialization.h}}
+\doxysubsubsection{\texorpdfstring{hash()}{hash()}}
+{\footnotesize\ttfamily int hash (\begin{DoxyParamCaption}\item[{char $\ast$}]{m }\end{DoxyParamCaption})}
+
+
+
+Fonction de calcul du hashcode d\textquotesingle{}un mot m. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & le contenu du mot à transcrire en hashcode \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Hashcode associé au mot m 
+\end{DoxyReturn}
+\mbox{\Hypertarget{serialization_8h_ad6454eb485e674630bde12d1adc062ab}\label{serialization_8h_ad6454eb485e674630bde12d1adc062ab}} 
+\index{serialization.h@{serialization.h}!serializeDico@{serializeDico}}
+\index{serializeDico@{serializeDico}!serialization.h@{serialization.h}}
+\doxysubsubsection{\texorpdfstring{serializeDico()}{serializeDico()}}
+{\footnotesize\ttfamily void serialize\+Dico (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structdico}{dico}} $\ast$}]{dictionary,  }\item[{\mbox{\hyperlink{structmot__data__t}{mot\+\_\+data\+\_\+t}} $\ast$$\ast$}]{table }\end{DoxyParamCaption})}
+
+
+
+Fonction de sérialisation d\textquotesingle{}une structure de dictionnaire dans une table. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dictionary} & la structure de dictionnaire d\textquotesingle{}origine \\
+\hline
+{\em table} & la table (pointeur sur un ensemble de structures de mots) de destination \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pas de valeur de retour
+\end{DoxyReturn}
+Cette fonction procède à la sérialisation d\textquotesingle{}une structure de dictionnaire (ABR) dans une table de hachage, où le hash de chaque mot correspond à son indice dans la table, et le contenu de chaque mot correspond au contenu de chaque case de la table. 

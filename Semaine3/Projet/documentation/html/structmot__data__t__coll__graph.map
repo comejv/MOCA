@@ -1,0 +1,4 @@
+<map id="mot_data_t" name="mot_data_t">
+<area shape="rect" id="node1" title="Structure de données décrivant un mot." alt="" coords="19,109,115,136"/>
+<area shape="rect" id="node2" href="$structemplacement__t.html" title="Structure de liste chaînée décrivant une séquence d&#39;emplacements." alt="" coords="5,5,129,32"/>
+</map>
