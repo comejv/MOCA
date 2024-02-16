@@ -1,7 +1,7 @@
 <map id="headers/structures.h" name="headers/structures.h">
-<area shape="rect" id="node1" title="Structures de données décrivant les objets manipulés." alt="" coords="107,5,262,32"/>
-<area shape="rect" id="node2" href="$dico__tools_8h.html" title="Outils de manipulation d&#39;une structure de dictionnaire." alt="" coords="5,229,161,256"/>
-<area shape="rect" id="node3" href="$word__tools_8h.html" title="Outils de manipulation de structures de mots." alt="" coords="45,80,207,107"/>
-<area shape="rect" id="node4" href="$serialization_8h.html" title="Fonctions de conversion entre ABR (dictionnaire) et table de hachage." alt="" coords="121,155,318,181"/>
-<area shape="rect" id="node5" href="$display_8h.html" title="Fonctions d&#39;affichage d&#39;objets (mot, dictionnaire)" alt="" coords="282,80,445,107"/>
+<area shape="rect" id="node1" title="Structures de données décrivant les objets manipulés." alt="" coords="111,5,272,32"/>
+<area shape="rect" id="node2" href="$dico__tools_8h.html" title="Outils de manipulation d&#39;une structure de dictionnaire." alt="" coords="5,229,167,256"/>
+<area shape="rect" id="node3" href="$word__tools_8h.html" title="Outils de manipulation de structures de mots." alt="" coords="48,80,215,107"/>
+<area shape="rect" id="node4" href="$serialization_8h.html" title="Fonctions de conversion entre ABR (dictionnaire) et table de hachage." alt="" coords="124,155,328,181"/>
+<area shape="rect" id="node5" href="$display_8h.html" title="Fonctions d&#39;affichage d&#39;objets (mot, dictionnaire)" alt="" coords="290,80,458,107"/>
 </map>

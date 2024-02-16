@@ -1,9 +1,9 @@
 <map id="libs/headers/serialization.h" name="libs/headers/serialization.h">
-<area shape="rect" id="node1" title="Fonctions de conversion entre ABR (dictionnaire) et table de hachage." alt="" coords="147,5,344,32"/>
+<area shape="rect" id="node1" title="Fonctions de conversion entre ABR (dictionnaire) et table de hachage." alt="" coords="145,5,349,32"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,80,72,107"/>
 <area shape="rect" id="node3" title=" " alt="" coords="87,155,158,181"/>
-<area shape="rect" id="node4" title=" " alt="" coords="379,80,447,107"/>
-<area shape="rect" id="node5" title=" " alt="" coords="189,155,259,181"/>
-<area shape="rect" id="node6" href="$structures_8h.html" title="Structures de données décrivant les objets manipulés." alt="" coords="288,155,387,181"/>
-<area shape="rect" id="node7" href="$word__tools_8h.html" title="Outils de manipulation de structures de mots." alt="" coords="147,80,253,107"/>
+<area shape="rect" id="node4" title=" " alt="" coords="381,80,451,107"/>
+<area shape="rect" id="node5" title=" " alt="" coords="189,155,262,181"/>
+<area shape="rect" id="node6" href="$structures_8h.html" title="Structures de données décrivant les objets manipulés." alt="" coords="289,155,391,181"/>
+<area shape="rect" id="node7" href="$word__tools_8h.html" title="Outils de manipulation de structures de mots." alt="" coords="147,80,255,107"/>
 </map>
