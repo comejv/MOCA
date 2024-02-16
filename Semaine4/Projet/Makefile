@@ -118,8 +118,8 @@ showCov:
 # The LIBCLEAN option can be specified in command line to also clean the libraries (libs) subdirectory (through the sub Makefile)
 clean :
 	@echo "----- Nettoyage des objets, des exécutables et de la documentation -----"
-	-rm -r $(OBJDIR)/*.o $(EXEC) $(DOCDIR)/*/
-	-rm $(OBJDIR)/*.gc*
+	-rm -r $(OBJDIR)/*.o $(EXEC) $(DOCDIR)/*/ 2> /dev/null
+	-rm $(OBJDIR)/*.gc* 2> /dev/null
 ifdef LIBCLEAN
 	@echo
 	@echo "----- Nettoyage des librairies -----"

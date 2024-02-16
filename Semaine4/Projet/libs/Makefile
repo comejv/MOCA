@@ -81,4 +81,4 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 
 # Rule to clean the workspace
 clean:
-	-rm -r $(OBJDIR) $(LIBDIR)
+	-rm -r $(OBJDIR) $(LIBDIR) 2> /dev/null
