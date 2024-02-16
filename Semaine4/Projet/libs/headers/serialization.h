@@ -23,7 +23,7 @@
  * \fn int hash(char *m)
  * \brief Fonction de calcul du hashcode d'un mot m
  * \param m le contenu du mot à transcrire en hashcode
- * \return Hashcode associé au mot m
+ * \note Pas de valeur de retour
 */
 int hash(char *m);
 
@@ -32,7 +32,7 @@ int hash(char *m);
  * \brief Fonction de désérialisation d'une structure de mot dans une structure de dictionnaire
  * \param dic la structure de dictionnaire de destination
  * \param elt la structure de mot à intégrer dans la structure de dictionnaire
- * \return Pas de valeur de retour
+ * \note Pas de valeur de retour
  * 
  * Cette fonction procède à la désérialisation d'une structure de mot dans une structure de dictionnaire (ABR), c'est-à-dire à 
  * l'insertion du mot dans l'arbre (de la même manière que insertDico ?)
@@ -44,7 +44,7 @@ void deserializeDico(dico** dic, mot_data_t *elt);
  * \brief Fonction de sérialisation d'une structure de dictionnaire dans une table
  * \param dictionary la structure de dictionnaire d'origine
  * \param table la table (pointeur sur un ensemble de structures de mots) de destination
- * \return Pas de valeur de retour
+ * \note Pas de valeur de retour
  * 
  * Cette fonction procède à la sérialisation d'une structure de dictionnaire (ABR) dans une table de hachage, où le hash de chaque mot
  * correspond à son indice dans la table, et le contenu de chaque mot correspond au contenu de chaque case de la table.
