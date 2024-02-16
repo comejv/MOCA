@@ -5,12 +5,12 @@
 CC=gcc
 CFLAGS=-Wall -Werror
 # -I option used here to tell the compiler in which folders to search for the headers (main headers + libs headers)
-CPPFLAGS=-I headers -I libs/headers
+CPPFLAGS=-I headers -I $(LIBDIR)/headers
 # arguments passed to the sub Makefile (along with the $(MAKE) command)
 MAKEARGS=
 
 # -Wl,-rpath,libs/libs/ add a directory to find our libraries (allows us to omit the use of "export LD_LIBRARY_PATH=./libs/libs/:$LD_LIBRARY_PATH")
-LDFLAGS=-Wl,-rpath,libs/libs/
+LDFLAGS=-Wl,-rpath,$(LIBDIR)/libs/
 # If STATIC is defined, we want to generate static libraries, whose name end with ".a" and force a static link with libs display and serialization
 # Otherwise, we want to generate shared libraries, whose name end with ".so" and force a dynamic link with libs display and serialization
 ifdef STATIC
@@ -23,15 +23,17 @@ endif
 # -L to give the libraries path name
 # -l to give the name of libraries files (with the ":" syntax allowing us to specify the full name, including the right suffix depending on
 # whether we want to generate static or dynamic libraries)
-LDFLAGS+=-L libs/libs -l:libdisplay$(LIBEXT) -l:libserialization$(LIBEXT) -lm
+LDFLAGS+=-L $(LIBDIR)/libs -l:libdisplay$(LIBEXT) -l:libserialization$(LIBEXT) -lm
 
 # Directories for source files, object files, headers, executable files, and Doxygen documentation
 SRCDIR=sources
 OBJDIR=objects
 HEADERSDIR=headers
+LIBDIR=libs
 EXECDIR=.
 DOCDIR=documentation
 RESDIR=resultats
+TESTDIR=auto_tests
 
 # Files names : sources, headers, objects, objects that correspond to an executable file name, and executable files
 SRCS=$(wildcard $(SRCDIR)/*.c)
@@ -50,19 +52,11 @@ CPPFLAGS+=-DDEBUG
 MAKEARGS+=DEBUG=1
 endif
 
-ifdef TEST
-# required options to use gcov (test coverage tool) used both for compilation and linking
-OPTGCOV=-fprofile-arcs -ftest-coverage
-CFLAGS+=$(OPTGCOV)
-LDFLAGS+=$(OPTGCOV)
-MAKEARGS+=TEST=1
-endif
-
 #############
 ### RULES ###
 #############
 
-.PHONY : clean
+.PHONY : ensureDirs showCov clean
 
 # Default target
 all : lib ensureDirs message $(EXEC)
@@ -77,7 +71,7 @@ $(OBJDIR)/%.o:$(SRCDIR)/%.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 # Specification of the headers that every object file depends on (in case only preprocessor instructions are modified)
-$(OBJDIR)/dico_tools.o : $(HEADERSDIR)/dico_tools.h $(HEADERSDIR)/structures.h $(HEADERSDIR)/word_tools.h libs/headers/serialization.h
+$(OBJDIR)/dico_tools.o : $(HEADERSDIR)/dico_tools.h $(HEADERSDIR)/structures.h $(HEADERSDIR)/word_tools.h $(LIBDIR)/headers/serialization.h
 $(OBJDIR)/word_tools.o : $(HEADERSDIR)/word_tools.h $(HEADERSDIR)/structures.h
 
 # Special case for main objects files because they depend on all headers
@@ -92,7 +86,17 @@ $(EXEC) : $(OBJS)
 # $(MAKE) is a standard variable containing the make command (used to avoid conflicts with other potentially defined make variables)
 lib:
 	@echo "----- Nettoyage et compilation des librairies -----"
-	cd libs && $(MAKE) clean && $(MAKE) $(MAKEARGS)
+	$(MAKE) -C $(LIBDIR) clean
+	$(MAKE) -C $(LIBDIR) $(MAKEARGS)
+
+covFlags:
+	OPTGCOV=-fprofile-arcs -ftest-coverage
+	CFLAGS+=$(OPTGCOV)
+	LDFLAGS+=$(OPTGCOV)
+	MAKEARGS+=TEST=1
+
+test: covFlags lib $(OBJS)
+	$(MAKE) -C $(TESTDIR)
 
 # Rule to generate automatic documentation (via Doxygen, based on the configuration file located in DOCDIR)
 doc:
@@ -119,6 +123,6 @@ clean :
 ifdef LIBCLEAN
 	@echo
 	@echo "----- Nettoyage des librairies -----"
-	cd libs && $(MAKE) clean
+	$(MAKE) -C $(LIBDIR) clean
 endif
 
