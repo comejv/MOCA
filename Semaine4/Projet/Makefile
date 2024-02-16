@@ -33,6 +33,7 @@ OBJDIR=objects
 HEADERSDIR=headers
 EXECDIR=.
 DOCDIR=documentation
+RESDIR=resultats
 
 # Files names : sources, headers, objects, objects that correspond to an executable file name, and executable files
 SRCS=$(wildcard $(SRCDIR)/*.c)
@@ -98,6 +99,7 @@ ensureDirs:
 	@mkdir -p $(OBJDIR)
 	@mkdir -p $(EXECDIR)
 	@mkdir -p $(DOCDIR)
+	@mkdir -p $(RESDIR)
 
 # Rule to clean the workspace
 # The LIBCLEAN option can be specified in command line to also clean the libraries (libs) subdirectory (through the sub Makefile)
