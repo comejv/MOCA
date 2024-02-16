@@ -42,6 +42,13 @@ CFLAGS += -g
 CPPFLAGS += -DDEBUG
 endif
 
+ifdef TEST
+# required options to use gcov (test coverage tool) used both for compilation and linking
+OPTGCOV := -fprofile-arcs -ftest-coverage
+CFLAGS += $(OPTGCOV)
+LDFLAGS += $(OPTGCOV)
+endif
+
 # Library names
 DISPLAY_LIB_NAME := $(LIBDIR)/libdisplay$(LIB_EXT)
 SERIALIZATION_LIB_NAME := $(LIBDIR)/libserialization$(LIB_EXT)

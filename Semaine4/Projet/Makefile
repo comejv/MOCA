@@ -3,16 +3,14 @@
 #################
 
 CC=gcc
-# required options to use gcov (test coverage tool) used both for compilation and linking
-OPTGCOV=-fprofile-arcs -ftest-coverage
-CFLAGS=-Wall -Werror $(OPTGCOV)
+CFLAGS=-Wall -Werror
 # -I option used here to tell the compiler in which folders to search for the headers (main headers + libs headers)
 CPPFLAGS=-I headers -I libs/headers
 # arguments passed to the sub Makefile (along with the $(MAKE) command)
 MAKEARGS=
 
 # -Wl,-rpath,libs/libs/ add a directory to find our libraries (allows us to omit the use of "export LD_LIBRARY_PATH=./libs/libs/:$LD_LIBRARY_PATH")
-LDFLAGS=-Wl,-rpath,libs/libs/ $(OPTGCOV)
+LDFLAGS=-Wl,-rpath,libs/libs/
 # If STATIC is defined, we want to generate static libraries, whose name end with ".a" and force a static link with libs display and serialization
 # Otherwise, we want to generate shared libraries, whose name end with ".so" and force a dynamic link with libs display and serialization
 ifdef STATIC
@@ -52,6 +50,14 @@ CPPFLAGS+=-DDEBUG
 MAKEARGS+=DEBUG=1
 endif
 
+ifdef TEST
+# required options to use gcov (test coverage tool) used both for compilation and linking
+OPTGCOV=-fprofile-arcs -ftest-coverage
+CFLAGS+=$(OPTGCOV)
+LDFLAGS+=$(OPTGCOV)
+MAKEARGS+=TEST=1
+endif
+
 #############
 ### RULES ###
 #############
@@ -59,7 +65,7 @@ endif
 .PHONY : clean
 
 # Default target
-all : lib ensureDirs message $(EXEC) doc 
+all : lib ensureDirs message $(EXEC)
 
 # Rule to organize the output
 message : 
@@ -101,11 +107,15 @@ ensureDirs:
 	@mkdir -p $(DOCDIR)
 	@mkdir -p $(RESDIR)
 
+showCov:
+	@gcov -b -o $(OBJDIR) -c $(SRCS)
+
 # Rule to clean the workspace
 # The LIBCLEAN option can be specified in command line to also clean the libraries (libs) subdirectory (through the sub Makefile)
 clean :
 	@echo "----- Nettoyage des objets, des exécutables et de la documentation -----"
 	-rm -r $(OBJDIR)/*.o $(EXEC) $(DOCDIR)/*/
+	-rm $(OBJDIR)/*.gc*
 ifdef LIBCLEAN
 	@echo
 	@echo "----- Nettoyage des librairies -----"
