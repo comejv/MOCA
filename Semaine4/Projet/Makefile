@@ -88,7 +88,6 @@ message :
 
 # Rule to make the object files
 $(OBJDIR)/%.o:$(SRCDIR)/%.c
-	@echo "------------- $(CPPFLAGS) --------------------"
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 # Specification of the headers that every object file depends on (in case only preprocessor instructions are modified)
