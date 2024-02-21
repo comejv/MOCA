@@ -20,8 +20,8 @@
  * \fn char *next_word(FILE *f, unsigned int *nblin, unsigned int *nbcol)
  * \brief Fonction de récupération d'un mot dans le texte d'origine
  * \param f le fichier contenant le texte d'origine
- * \param nblin l'indice de ligne actuel dans le texte
- * \param nbcol l'indice de colonne actuel dans le texte
+ * \param nblin l'indice de ligne actuel dans le texte, modifié par l'indice de ligne du mot si il est trouvé
+ * \param nbcol l'indice de colonne actuel dans le texte, modifié par l'indice de colonne du mot si il est trouvé
  * \return Le mot lu dans le texte
  * 
  * Cette fonction lit le prochain mot dans le texte d'origine contenu dans un fichier, et le renvoie.
