@@ -4,3 +4,6 @@ Projet/libs/libs
 Projet/**/*.gc*
 Projet/resultats/*
 Projet/dico
+Projet/documentation/html/*
+Projet/documentation/latex/*
+

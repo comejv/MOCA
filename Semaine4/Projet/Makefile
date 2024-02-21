@@ -52,11 +52,21 @@ CPPFLAGS+=-DDEBUG
 MAKEARGS+=DEBUG=1
 endif
 
+# Test mode :
+# -fprofile-arcs -ftest-coverage to be able to run test file and gcov
+# TEST=1 option passed to the sub Makefile (used to generate libraries) to create test files (gcno, gcda) from source files in libraries
+ifdef TEST
+	OPTGCOV=-fprofile-arcs -ftest-coverage
+	CFLAGS+=$(OPTGCOV)
+	LDFLAGS+=$(OPTGCOV)
+	MAKEARGS+=TEST=1
+endif
+
 #############
 ### RULES ###
 #############
 
-.PHONY : ensureDirs showCov clean
+.PHONY : ensureDirs showCov clean cleanall
 
 # Default target
 all : lib ensureDirs message $(EXEC)
@@ -85,17 +95,16 @@ $(EXEC) : $(OBJS)
 # && is used to execute several commands in a row and in the same shell (otherwise every process is run on a different shell)
 # $(MAKE) is a standard variable containing the make command (used to avoid conflicts with other potentially defined make variables)
 lib:
+	@echo
 	@echo "----- Nettoyage et compilation des librairies -----"
 	$(MAKE) -C $(LIBDIR) clean
 	$(MAKE) -C $(LIBDIR) $(MAKEARGS)
 
-covFlags:
-	OPTGCOV=-fprofile-arcs -ftest-coverage
-	CFLAGS+=$(OPTGCOV)
-	LDFLAGS+=$(OPTGCOV)
-	MAKEARGS+=TEST=1
-
-test: covFlags lib $(OBJS)
+# Rule to compile and generate tests files, and show results
+test:
+	@echo
+	@echo "----- Compilation des tests + leurs lancements -----"
+	$(MAKE) TEST=1
 	$(MAKE) -C $(TESTDIR)
 
 # Rule to generate automatic documentation (via Doxygen, based on the configuration file located in DOCDIR)
@@ -114,15 +123,33 @@ ensureDirs:
 showCov:
 	@gcov -b -o $(OBJDIR) -c $(SRCS)
 
+# Rule to clean the workspace + libs + auto_test
+cleanall :
+	@echo "----- Nettoyage des objets, des exécutables et de la documentation -----"
+	-rm -r $(OBJDIR)/*.o $(EXEC) $(DOCDIR)/*/ 2> /dev/null
+	-rm $(OBJDIR)/*.gc* 2> /dev/null
+	@echo
+	@echo "----- Nettoyage des librairies -----"
+	$(MAKE) -C $(LIBDIR) clean
+	@echo
+	@echo "----- Nettoyage du repertoire auto_tests -----"
+	$(MAKE) -C $(TESTDIR) clean
+
 # Rule to clean the workspace
 # The LIBCLEAN option can be specified in command line to also clean the libraries (libs) subdirectory (through the sub Makefile)
+# The TESTCLEAN option can be specified in command line to also clean the auto tests (auto_tests) subdirectory (through the sub Makefile)
 clean :
 	@echo "----- Nettoyage des objets, des exécutables et de la documentation -----"
-	-rm -r $(OBJDIR)/*.o $(EXEC) $(DOCDIR)/*/
-	-rm $(OBJDIR)/*.gc*
+	-rm -r $(OBJDIR)/*.o $(EXEC) $(DOCDIR)/*/ 2> /dev/null
+	-rm $(OBJDIR)/*.gc* 2> /dev/null
 ifdef LIBCLEAN
 	@echo
 	@echo "----- Nettoyage des librairies -----"
 	$(MAKE) -C $(LIBDIR) clean
+endif
+ifdef TESTCLEAN
+	@echo
+	@echo "----- Nettoyage du repertoire auto_tests -----"
+	$(MAKE) -C $(TESTDIR) clean
 endif
 
