@@ -34,6 +34,10 @@ void test_compareWord(CuTest * tc) {
   CuAssertIntEquals(tc, -1, compareWord("mot", " "));
 }
 
+void test_hash(CuTest *tc) {
+  // tester des cas simples (pas d'overflow)
+}
+
 CuSuite *MaTestSuite (){
   CuSuite *suite = CuSuiteNew ();
   SUITE_ADD_TEST (suite, test_compareWord);
