@@ -47,9 +47,16 @@ EXEC=$(MAIN_OBJS:$(OBJDIR)/%.o=$(EXECDIR)/%)
 # -DDEBUG to define the DEBUG macro in source files
 # DEBUG=1 option passed to the sub Makefile (used to generate libraries) to activate debug mode in libraries source files too
 ifdef DEBUG 
-CFLAGS+=-g 
-CPPFLAGS+=-DDEBUG
-MAKEARGS+=DEBUG=1
+CFLAGS += -g 
+ifeq ($(DEBUG),LIBS)
+CPPFLAGS += -DFDEBUG=1
+else ifeq ($(DEBUG),DICO)
+CPPFLAGS += -DFDEBUG=2
+else ifeq ($(DEBUG),WORD)
+CPPFLAGS += -DFDEBUG=3
+else
+CPPFLAGS += -DFDEBUG=0
+endif
 endif
 
 # Test mode :
