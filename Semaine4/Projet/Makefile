@@ -123,8 +123,21 @@ ensureDirs:
 showCov:
 	@gcov -b -o $(OBJDIR) -c $(SRCS)
 
+# Rule to clean the workspace + libs + auto_test
+cleanall :
+	@echo "----- Nettoyage des objets, des exécutables et de la documentation -----"
+	-rm -r $(OBJDIR)/*.o $(EXEC) $(DOCDIR)/*/ 2> /dev/null
+	-rm $(OBJDIR)/*.gc* 2> /dev/null
+	@echo
+	@echo "----- Nettoyage des librairies -----"
+	$(MAKE) -C $(LIBDIR) clean
+	@echo
+	@echo "----- Nettoyage du repertoire auto_tests -----"
+	$(MAKE) -C $(TESTDIR) clean
+
 # Rule to clean the workspace
 # The LIBCLEAN option can be specified in command line to also clean the libraries (libs) subdirectory (through the sub Makefile)
+# The TESTCLEAN option can be specified in command line to also clean the auto tests (auto_tests) subdirectory (through the sub Makefile)
 clean :
 	@echo "----- Nettoyage des objets, des exécutables et de la documentation -----"
 	-rm -r $(OBJDIR)/*.o $(EXEC) $(DOCDIR)/*/ 2> /dev/null
