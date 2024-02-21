@@ -66,7 +66,7 @@ endif
 ### RULES ###
 #############
 
-.PHONY : ensureDirs showCov clean
+.PHONY : ensureDirs showCov clean cleanall
 
 # Default target
 all : lib ensureDirs message $(EXEC)
