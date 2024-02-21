@@ -143,15 +143,6 @@ void test_incWord(CuTest * tc) {
   
 }
 
-
-CuSuite *MaTestSuite (){
-  CuSuite *suite = CuSuiteNew ();
-  SUITE_ADD_TEST (suite, test_compareWord);
-  SUITE_ADD_TEST (suite, test_next_word);
-  SUITE_ADD_TEST (suite, test_incWord);
-  return suite;
-}
-
 void free_dico(dico *dict) {
   if (dict) {
     free_dico(dict->fg);
@@ -354,6 +345,8 @@ void test_deserializeDico(CuTest *tc) {
 CuSuite *MaTestSuite () {
   CuSuite *suite = CuSuiteNew ();
   SUITE_ADD_TEST (suite, test_compareWord);
+  SUITE_ADD_TEST (suite, test_next_word);
+  SUITE_ADD_TEST (suite, test_incWord);
   SUITE_ADD_TEST (suite, test_hash);
   SUITE_ADD_TEST (suite, test_serializeDico);
   SUITE_ADD_TEST (suite, test_deserializeDico);
