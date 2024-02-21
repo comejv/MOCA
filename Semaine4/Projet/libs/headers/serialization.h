@@ -14,6 +14,7 @@
 
 #include "structures.h"
 #include "word_tools.h"
+#include "macro.h"
 // #include "json.h"
 
 #define MaxSizeArray 16381

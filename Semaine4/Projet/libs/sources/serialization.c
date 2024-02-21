@@ -33,17 +33,17 @@ struct json_object *createJSON(mot_data_t **d){
 
 int hash(char *m) {
   uint64_t h;
-  printf("mot : %s\n", m);
-  printf("longueur : %ld\n", strlen(m));
+  DEBUG(HASH, "mot : %s\n", m);
+  DEBUG(HASH, "longueur : %ld\n", strlen(m));
   int l = strlen(m);
   int i;
   h = 0;
   for(i=0; i<l; i++) {
-    h = h + (m[i]*pow(127, l-i-1));
+    h = h + (uint64_t) (m[i]*powl((long double) 127, (long double) l-i-1));
   }
-  printf("hash pre-modulo : %ld\n", h);
+  DEBUG(HASH, "hash pre-modulo : %ld\n", h);
   h = h % MaxSizeArray;
-  printf("hash post modulo : %ld\n", h);
+  DEBUG(HASH, "hash post modulo : %ld\n", h);
   return h;
 }
 
@@ -59,7 +59,7 @@ void deserializeDico(dico** dic, mot_data_t *elt) {
     *dic = temp;
     return;
   }
-  if (compareWord(&((*dic)->mot->data),(mot_data_t*)newLinkWord)>0) {   
+  if (compareWord(&((*dic)->mot->data), elt)>0) {   
     deserializeDico(&(*dic)->fg, elt);
   }
   else
