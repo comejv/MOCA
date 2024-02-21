@@ -46,7 +46,7 @@ test:
 	make clean
 	make $(EXEC)
 	./testDico
-	gcov -b -n -f -s ../sources/ -o ../$(OBJDIR) -c word_tools.c
+	@gcov -b -n -m -f -s ../sources/ -o ../$(OBJDIR) -c word_tools.c
 
 # Rule to create all needed directories (-p to disable errors if they already exist)
 ensureDirs:
@@ -55,5 +55,5 @@ ensureDirs:
 
 # Rule to clean the workspace
 clean:
-	rm -rf $(OBJS)/*.o $(EXEC)
-	rm -rf $(OBJS)/*.gc*
+	rm -rf $(OBJDIR)/*.o $(EXEC)
+	rm -rf $(OBJDIR)/*.gc*
