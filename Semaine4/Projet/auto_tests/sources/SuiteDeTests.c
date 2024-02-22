@@ -109,16 +109,21 @@ void test_next_word(CuTest * tc) {
 
 void test_incWord(CuTest * tc) {
   emplacement_t* Location = (emplacement_t*) malloc(sizeof(emplacement_t));
-
+  
+  incWord(Location, 0, 0);
+  CuAssertPtrNotNull(tc, Location->next);
+  CuAssertIntEquals(tc, 0, Location->next->line);
+  CuAssertIntEquals(tc, 0, Location->next->colonne);
+  
   incWord(Location, 1, 1);
   CuAssertPtrNotNull(tc, Location->next);
-  CuAssertIntEquals(tc, 1, Location->next->line);
-  CuAssertIntEquals(tc, 1, Location->next->colonne);
+  CuAssertIntEquals(tc, 1, Location->next->next->line);
+  CuAssertIntEquals(tc, 1, Location->next->next->colonne);
 
-  incWord(Location, 2, 2);
+  incWord(Location, 6, 6);
   CuAssertPtrNotNull(tc, Location->next->next);
-  CuAssertIntEquals(tc, 2, Location->next->next->line);
-  CuAssertIntEquals(tc, 2, Location->next->next->colonne);
+  CuAssertIntEquals(tc, 6, Location->next->next->next->line);
+  CuAssertIntEquals(tc, 6, Location->next->next->next->colonne);
   
 }
 
