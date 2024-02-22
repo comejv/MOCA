@@ -1,45 +1,42 @@
 #include <stdio.h>
 #include "word_tools.h"
 
+char *separators=SEP; 
+unsigned int current_line=1;
+unsigned int current_col=1; 
+
 char *next_word(FILE *f, unsigned int *nblin, unsigned int *nbcol){
   char s[100]; 
   char *res; 
-  char *separators=SEP;
-  unsigned int current_line=1;
-  unsigned int current_col=0;
-  unsigned int i=0, startl, startc;
+  unsigned int i=0, startl = current_line, startc = current_col;
   char sep;
-  if (nblin != NULL) {
-    current_line = *nblin; 
-  }  
-
-  if (nbcol != NULL) {
-    current_col = *nbcol;
-  }
-
-  startl = current_line;
-  startc = current_col;
-
   sep = fgetc(f);
   while (strchr(separators,sep) != NULL  || sep == '\n') { 
     if (sep == '\n'){ 
-      startl++; startc = 0;
+      startl++; startc = 1;
     } 
     sep = fgetc(f);
   } 
   ungetc(sep,f);
-  
+  if (nblin != NULL) *nblin = startl;  
+  if (nbcol != NULL) *nbcol = startc;
   while ((strchr(separators, s[i]=fgetc(f)) == NULL) && s[i] != '\n'){
-    i++;
+    i++; 
   }
+  startc++;
   sep = s[i]; 
   s[i] = '\0';
   res = (char *)malloc(strlen(s)+1); 
-  ungetc(sep,f);
   strcpy(res,s);
-
-  *nblin = startl;
-  *nbcol = startc+1;
+  while (strchr(separators,sep) != NULL  || sep == '\n') { 
+    if (sep == '\n'){  
+      startl++; startc = 1;
+    } 
+    sep = fgetc(f);
+  } 
+  ungetc(sep,f);
+  current_line = startl;
+  current_col = startc;
   return res;
 }
 

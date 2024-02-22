@@ -57,15 +57,14 @@ void test_compareWord(CuTest * tc) {
 void test_next_word(CuTest * tc) {
   FILE *f;
   unsigned int l, c;
-  //unsigned int *l1 = NULL, *c1 = NULL;
-  f = fopen("../exemples/hugo.txt", "r");
+  // unsigned int *l1 = NULL, *c1 = NULL;
+  f = fopen("../exemples/test_next_word.txt", "r");
   if (f == NULL) {
-    fprintf(stderr, "Erreur d'ouverture du fichier 'exemples/hugo.txt'\n");
+    fprintf(stderr, "Erreur d'ouverture du fichier 'exemples/test_next_word.txt'\n");
     exit(-1);
   }
-  l = 1; c = 0;
 
-  // Faut malloc dans next_word pour l'utiliser (peut-être)
+  // Il y a seg fault si on test
   // CuAssertStrEquals(tc, "je", next_word(f, l1, c1));
   // CuAssertIntEquals(tc, 1, *l1);
   // CuAssertIntEquals(tc, 1, *c1);
@@ -73,19 +72,19 @@ void test_next_word(CuTest * tc) {
   // c = *c1;
   
   CuAssertStrEquals(tc, "je", next_word(f, &l, &c));
-  CuAssertIntEquals(tc, 1, l);
+  CuAssertIntEquals(tc, 2, l);
   CuAssertIntEquals(tc, 1, c);
 
   CuAssertStrEquals(tc, "ne", next_word(f, &l, &c));
-  CuAssertIntEquals(tc, 1, l);
+  CuAssertIntEquals(tc, 2, l);
   CuAssertIntEquals(tc, 2, c);
 
   CuAssertStrEquals(tc, "laisserai", next_word(f, &l, &c));
-  CuAssertIntEquals(tc, 1, l);
+  CuAssertIntEquals(tc, 2, l);
   CuAssertIntEquals(tc, 3, c);
 
   CuAssertStrEquals(tc, "pas", next_word(f, &l, &c));
-  CuAssertIntEquals(tc, 1, l);
+  CuAssertIntEquals(tc, 2, l);
   CuAssertIntEquals(tc, 4, c);
 
   for (int i = 0; i < 4; i++) {
@@ -93,7 +92,7 @@ void test_next_word(CuTest * tc) {
   }
 
   CuAssertStrEquals(tc, "sans", next_word(f, &l, &c));
-  CuAssertIntEquals(tc, 2, l);
+  CuAssertIntEquals(tc, 3, l);
   CuAssertIntEquals(tc, 1, c);
 
   for (int i = 0; i < 12; i++) {
@@ -101,7 +100,7 @@ void test_next_word(CuTest * tc) {
   }
 
   CuAssertStrEquals(tc, "parmi", next_word(f, &l, &c));
-  CuAssertIntEquals(tc, 3, l);
+  CuAssertIntEquals(tc, 6, l);
   CuAssertIntEquals(tc, 4, c);
 
 }
