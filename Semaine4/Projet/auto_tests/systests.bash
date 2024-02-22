@@ -1,8 +1,12 @@
 #!/bin/bash
 
-res_dir=auto_tests/res
+out_dir="auto_tests/out"
+res_dir="auto_tests/res"
+exp_dir="exemples/expected"
 mkdir -p $res_dir
+mkdir -p $exp_dir
 
+: '
 calculate_word_frequency() {
     src_file="$1"
     dest_file="$2"
@@ -15,6 +19,7 @@ calculate_word_frequency() {
 
     tr -d '[:punct:]' < $src_file | tr ' ' '\n' | sort | uniq -c | sort -k2,2 | awk '{print $2, $1}' > $dest_file
 }
+'
 
 parse_output ()
 {
@@ -45,14 +50,23 @@ parse_output ()
 }
 
 for txt in ./exemples/*.txt; do 
-    exp="exemples/expected/$(basename $txt)"
+    exp="$exp_dir/$(basename $txt)"
     if [[ ! -f $exp ]]; then
-        calculate_word_frequency $txt $exp
+        # calculate_word_frequency has unresolved bugs
+        # calculate_word_frequency $txt $exp
+        echo "$exp not found"
+        continue
     fi
-    out=$res_dir/res_$(basename $txt)
+    out=$out_dir/out_$(basename $txt)
+    res=$res_dir/res_$(basename $txt)
     ./dico $txt | parse_output | sort -k1 -o $out
-    diff -q $out $exp
-    if [[ $? -ne 0 ]]; then
-        echo "Test $txt failed"
+    diff -y $out $exp | grep '<\||\|>' > $res
+    if [[ -s $res ]]; then
+        echo -e "\x1b[1;31mTest $txt failed\x1b[0m"
+    else
+        echo -e "\x1b[1;32mTest $txt passed\x1b[0m"
     fi
 done
+
+echo "Diff output in $res_dir"
+
