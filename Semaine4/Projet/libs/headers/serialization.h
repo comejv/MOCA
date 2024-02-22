@@ -27,7 +27,7 @@
  * \param m le contenu du mot à transcrire en hashcode
  * \note Pas de valeur de retour
 */
-int hash(char *m);
+uint64_t hash(char *m);
 
 /**
  * \fn void deserializeDico(dico** dic, mot_data_t *elt)

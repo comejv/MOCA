@@ -112,9 +112,9 @@ lib:
 
 # Rule to compile and generate tests files, and show results
 test:
+	$(MAKE) TEST=1
 	@echo
 	@echo "----- Compilation des tests + leurs lancements -----"
-	$(MAKE) TEST=1
 	$(MAKE) -C $(TESTDIR)
 
 # Rule to generate automatic documentation (via Doxygen, based on the configuration file located in DOCDIR)

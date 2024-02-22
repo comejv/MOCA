@@ -46,6 +46,8 @@ $(EXEC): $(OBJS)
 test:
 	make clean
 	make $(EXEC)
+	@echo
+	@echo "----- Lancement de l'exécutable des tests et analyse de couverture -----"
 	./testDico
 	gcov -b -n -f -s ../sources/ -o ../$(OBJDIR) -c word_tools.c
 	gcov -b -n -f -s ../libs/sources/ -o ../libs/$(OBJDIR) -c serialization.c

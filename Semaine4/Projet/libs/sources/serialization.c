@@ -31,7 +31,7 @@ struct json_object *createJSON(mot_data_t **d){
 }
 */
 
-int hash(char *m) {
+uint64_t hash(char *m) {
   uint64_t h;
   DEBUG(HASH, "mot : %s\n", m);
   DEBUG(HASH, "longueur : %ld\n", strlen(m));
