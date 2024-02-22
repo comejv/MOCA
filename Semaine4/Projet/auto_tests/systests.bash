@@ -27,25 +27,39 @@ parse_output ()
     # input_file="$1"
     # output_file="$2"
     awk '
-    /^2----/ { flag =   1
-next} # Set flag to   1 when a line starts with "2----"
-    !flag { next } # Skip all lines until the flag is set
-    /^$/ { next }
-    /^3---/ { 
-    exit 
+    /^2----/ {
+        flag = 1
+        next
     }
+
+    # Set flag to   1 when a line starts with "2----"
+    ! flag {
+        next
+    }
+
+    # Skip all lines until the flag is set
+    /^$/ {
+        next
+    }
+
+    /^3---/ {
+        exit
+    }
+
     /^Index/ {
-         if (count >  0) {
-             print word, count
-         }
-         word=$4
-         count=0
-     }
-     {
-         count++
-     }
+        if (count > 0) {
+            print word, count
+        }
+        word = $4
+        count = 0
+    }
+
+    {
+        count++
+    }
+
     END {
-        if (count >   0) {
+        if (count > 0) {
             print word, count
         }
     }
