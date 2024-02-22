@@ -27,25 +27,28 @@ parse_output ()
     # input_file="$1"
     # output_file="$2"
     awk '
-    /^Resultat/ { next } # Ignore lines starting with "Resultat"
-    /^---/ { exit } # Stop processing when a line starts with "---"
+    /^2----/ { flag =   1
+next} # Set flag to   1 when a line starts with "2----"
+    !flag { next } # Skip all lines until the flag is set
+    /^$/ { next }
+    /^3---/ { 
+    exit 
+    }
     /^Index/ {
          if (count >  0) {
              print word, count
          }
+         word=$4
          count=0
      }
      {
          count++
-         if (/^Index/) {
-             word=$4
-         }
      }
-     END {
-         if (count >  0) {
-             print word, count
-         }
-     }
+    END {
+        if (count >   0) {
+            print word, count
+        }
+    }
     ' - # < ./dico $input_file # | sort -k1 -o $output_file
     return 
 }
