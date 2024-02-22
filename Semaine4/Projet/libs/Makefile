@@ -38,8 +38,18 @@ endif
 
 # Debug mode : -g to be able to run gdb, and -DDEBUG to define the DEBUG macro in source files
 ifdef DEBUG
-CFLAGS += -g 
-CPPFLAGS += -DDEBUG
+CFLAGS+=-g
+ifeq ($(DEBUG),LIBS)
+CPPFLAGS+=-DFDEBUG=1
+else ifeq ($(DEBUG),DICO)
+CPPFLAGS+=-DFDEBUG=2
+else ifeq ($(DEBUG),WORD)
+CPPFLAGS+=-DFDEBUG=3
+else ifeq ($(DEBUG),HASH)
+CPPFLAGS+=-DFDEBUG=4
+else
+CPPFLAGS+=-DFDEBUG=0
+endif
 endif
 
 ifdef TEST

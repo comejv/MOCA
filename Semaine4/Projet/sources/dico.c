@@ -34,11 +34,13 @@ int main(int argc, char** argv) {
     word = next_word(f,line,colonne);
     addToDico(&dictionary,word,line,colonne);
   }
+  printf("-----Affichage du dictionnaire une fois rempli-----\n");
   displayDico(dictionary);
   for(i=0; i<MaxSizeArray; i++)
     serialized_dico[i] = NULL;
   serializeDico(dictionary,serialized_dico);
-  for(i=0; i<MaxSizeArray; i++)
+  printf("\n-----Affichage de la table de mots après sérialisation-----\n");
+  for (i=0; i<MaxSizeArray; i++)
     if (serialized_dico[i] != NULL) {
       printf("Index %d -> ", i);
       displayWord(serialized_dico[i],stdout);
@@ -55,7 +57,7 @@ int main(int argc, char** argv) {
     if (serialized_dico[i] != NULL) {
       deserializeDico(&copiedico, serialized_dico[i]);
     }
-  printf("A la fin : \n");
+  printf("\n-----Affichage des noeuds du dictionnaire après désérialisation-----\n");
   displayNodes(copiedico, stdout);
   fclose(f);
   return 0;

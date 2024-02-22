@@ -10,6 +10,7 @@ SRCDIR=sources
 OBJDIR=objects
 HEADERSDIR=headers
 EXECDIR=.
+LIBHEADERSDIR=../libs/headers
 
 # Files names : sources, headers, objects, objects that correspond to an executable file name, and executable files
 SRCS=$(wildcard $(SRCDIR)/*.c)
@@ -21,8 +22,8 @@ EXEC=$(MAIN_OBJS:$(OBJDIR)/%.o=$(EXECDIR)/%)
 # -fprofile-arcs -ftest-coverage to be able to run test file and gcov
 OPTGCOV = -fprofile-arcs -ftest-coverage
 
-CFLAGS= -I$(HEADERSDIR) -I../headers -Wall $(OPTGCOV)
-LDFLAGS= $(OPTGCOV)
+CFLAGS= -I$(HEADERSDIR) -I../headers -Wall $(OPTGCOV) -I$(LIBHEADERSDIR)
+LDFLAGS= $(OPTGCOV) -lm
 
 
 #############
@@ -39,14 +40,17 @@ $(OBJDIR)/%.o:$(SRCDIR)/%.c
 
 # Rule to make the executable files
 $(EXEC): $(OBJS)
-	$(CC) $(OBJS) ../objects/word_tools.o -o $(EXEC) $(LDFLAGS)
+	$(CC) $(OBJS) ../libs/objects/serialization.o ../objects/word_tools.o -o $(EXEC) $(LDFLAGS)
 
 # Rule to make the tests
 test:
 	make clean
 	make $(EXEC)
+	@echo
+	@echo "----- Lancement de l'exécutable des tests et analyse de couverture -----"
 	./testDico
-	@gcov -b -n -m -f -s ../sources/ -o ../$(OBJDIR) -c word_tools.c
+	gcov -b -n -f -s ../sources/ -o ../$(OBJDIR) -c word_tools.c
+	gcov -b -n -f -s ../libs/sources/ -o ../libs/$(OBJDIR) -c serialization.c
 
 # Rule to create all needed directories (-p to disable errors if they already exist)
 ensureDirs:

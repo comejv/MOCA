@@ -5,7 +5,7 @@
 CC=gcc
 CFLAGS=-Wall -Werror
 # -I option used here to tell the compiler in which folders to search for the headers (main headers + libs headers)
-CPPFLAGS=-I headers -I $(LIBDIR)/headers
+CPPFLAGS=-I headers -I $(LIBDIR)/headers 
 # arguments passed to the sub Makefile (along with the $(MAKE) command)
 MAKEARGS=
 
@@ -46,16 +46,19 @@ EXEC=$(MAIN_OBJS:$(OBJDIR)/%.o=$(EXECDIR)/%)
 # -g to be able to run gdb
 # -DDEBUG to define the DEBUG macro in source files
 # DEBUG=1 option passed to the sub Makefile (used to generate libraries) to activate debug mode in libraries source files too
-ifdef DEBUG 
-CFLAGS += -g 
+ifdef DEBUG
+CFLAGS+=-g
+MAKEARGS += DEBUG=$(DEBUG)
 ifeq ($(DEBUG),LIBS)
-CPPFLAGS += -DFDEBUG=1
+CPPFLAGS+=-DFDEBUG=1
 else ifeq ($(DEBUG),DICO)
-CPPFLAGS += -DFDEBUG=2
+CPPFLAGS+=-DFDEBUG=2
 else ifeq ($(DEBUG),WORD)
-CPPFLAGS += -DFDEBUG=3
+CPPFLAGS+=-DFDEBUG=3
+else ifeq ($(DEBUG),HASH)
+CPPFLAGS+=-DFDEBUG=4
 else
-CPPFLAGS += -DFDEBUG=0
+CPPFLAGS+=-DFDEBUG=0
 endif
 endif
 
@@ -109,9 +112,9 @@ lib:
 
 # Rule to compile and generate tests files, and show results
 test:
+	$(MAKE) TEST=1
 	@echo
 	@echo "----- Compilation des tests + leurs lancements -----"
-	$(MAKE) TEST=1
 	$(MAKE) -C $(TESTDIR)
 
 # Rule to generate automatic documentation (via Doxygen, based on the configuration file located in DOCDIR)

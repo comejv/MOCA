@@ -41,7 +41,6 @@ void test_compareWord(CuTest * tc) {
   CuAssertIntEquals(tc, -1, compareWord(w1, w2));
   CuAssertIntEquals(tc, 1, compareWord(w2, w1));
 
-  // On ne devrait pas considerer "" et " " comme des mots donc ces tests servent a rien
   // strcpy(w1->lemot, "");
   // strcpy(w2->lemot, "mot");
   // CuAssertIntEquals(tc, 0, compareWord(w1, w1));
@@ -127,14 +126,10 @@ void test_incWord(CuTest * tc) {
   
 }
 
-
-CuSuite *MaTestSuite (){
+CuSuite *Tests_Words () {
   CuSuite *suite = CuSuiteNew ();
   SUITE_ADD_TEST (suite, test_compareWord);
   SUITE_ADD_TEST (suite, test_next_word);
   SUITE_ADD_TEST (suite, test_incWord);
   return suite;
 }
-
-
-
