@@ -112,6 +112,7 @@ lib:
 
 # Rule to compile and generate tests files, and show results
 test:
+	$(MAKE) clean
 	$(MAKE) TEST=1
 	@echo
 	@echo "----- Compilation des tests + leurs lancements -----"
