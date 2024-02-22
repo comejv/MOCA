@@ -63,5 +63,6 @@
 #define LIBS 1
 #define DICO 2
 #define WORD 3
+#define HASH 4
 
 #endif // __MACRO_H

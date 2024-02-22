@@ -1,17 +1,17 @@
 #include <stdio.h>
 #include "word_tools.h"
 
+char *separators=SEP; 
+unsigned int current_line=1;
+unsigned int current_col=1; 
+
 char *next_word(FILE *f, unsigned int *nblin, unsigned int *nbcol){
   char s[100]; 
   char *res; 
-  char *separators=SEP;
-  unsigned int current_line=1;
-  unsigned int current_col=1;
   unsigned int i=0, startl = current_line, startc = current_col;
   char sep;
   sep = fgetc(f);
   while (strchr(separators,sep) != NULL  || sep == '\n') { 
-    startc++;
     if (sep == '\n'){ 
       startl++; startc = 1;
     } 
@@ -21,14 +21,14 @@ char *next_word(FILE *f, unsigned int *nblin, unsigned int *nbcol){
   if (nblin != NULL) *nblin = startl;  
   if (nbcol != NULL) *nbcol = startc;
   while ((strchr(separators, s[i]=fgetc(f)) == NULL) && s[i] != '\n'){
-    i++; startc++;
+    i++; 
   }
+  startc++;
   sep = s[i]; 
   s[i] = '\0';
   res = (char *)malloc(strlen(s)+1); 
   strcpy(res,s);
   while (strchr(separators,sep) != NULL  || sep == '\n') { 
-    startc++;
     if (sep == '\n'){  
       startl++; startc = 1;
     } 
