@@ -5,6 +5,7 @@ res_dir="auto_tests/res"
 exp_dir="exemples/expected"
 mkdir -p $res_dir
 mkdir -p $exp_dir
+mkdir -p $out_dir
 
 : '
 calculate_word_frequency() {
