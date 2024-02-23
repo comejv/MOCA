@@ -1,0 +1,9 @@
+**/objects/*
+Projet/libs/libs
+Projet/**/*.gc*
+Projet/resultats/*
+Projet/dico
+Projet/auto_tests/testDico
+Projet/documentation/html/*
+Projet/documentation/latex/*
+Projet/auto_tests/objects
