@@ -47,7 +47,7 @@ EXEC=$(MAIN_OBJS:$(OBJDIR)/%.o=$(EXECDIR)/%)
 # -DDEBUG to define the DEBUG macro in source files
 # DEBUG=1 option passed to the sub Makefile (used to generate libraries) to activate debug mode in libraries source files too
 ifdef DEBUG
-CFLAGS+=-g
+CFLAGS+=-g 
 MAKEARGS += DEBUG=$(DEBUG)
 ifeq ($(DEBUG),LIBS)
 CPPFLAGS+=-DFDEBUG=1
@@ -67,8 +67,9 @@ endif
 # TEST=1 option passed to the sub Makefile (used to generate libraries) to create test files (gcno, gcda) from source files in libraries
 ifdef TEST
 	OPTGCOV=-fprofile-arcs -ftest-coverage
-	CFLAGS+=$(OPTGCOV)
-	LDFLAGS+=$(OPTGCOV)
+	STACKPROTECTOR=-fstack-protector-all
+	CFLAGS+=$(OPTGCOV) $(STACKPROTECTOR)
+	LDFLAGS+=$(OPTGCOV) $(STACKPROTECTOR)
 	MAKEARGS+=TEST=1
 endif
 

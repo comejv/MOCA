@@ -22,8 +22,11 @@ EXEC=$(MAIN_OBJS:$(OBJDIR)/%.o=$(EXECDIR)/%)
 # -fprofile-arcs -ftest-coverage to be able to run test file and gcov
 OPTGCOV = -fprofile-arcs -ftest-coverage
 
-CFLAGS= -I$(HEADERSDIR) -I../headers -Wall $(OPTGCOV) -I$(LIBHEADERSDIR)
-LDFLAGS= $(OPTGCOV) -lm
+# -fstack-protector-all to place canaries in every function and prevent buffer overflow
+STACKPROTECTOR = -fstack-protector-all
+
+CFLAGS= -I$(HEADERSDIR) -I../headers -Wall $(OPTGCOV) $(STACKPROTECTOR) -I$(LIBHEADERSDIR)
+LDFLAGS= $(OPTGCOV) $(STACKPROTECTOR) -lm
 
 
 #############

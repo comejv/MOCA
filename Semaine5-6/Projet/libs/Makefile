@@ -55,8 +55,9 @@ endif
 ifdef TEST
 # required options to use gcov (test coverage tool) used both for compilation and linking
 OPTGCOV := -fprofile-arcs -ftest-coverage
-CFLAGS += $(OPTGCOV)
-LDFLAGS += $(OPTGCOV)
+STACKPROTECTOR := -fstack-protector-all
+CFLAGS += $(OPTGCOV) $(STACKPROTECTOR)
+LDFLAGS += $(OPTGCOV) $(STACKPROTECTOR)
 endif
 
 # Library names

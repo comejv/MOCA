@@ -89,7 +89,7 @@ void test_serializeDico(CuTest *tc) {
 
   // assemblage des noeuds
   // schéma : 
-  /*         test
+  /*         est
            /      \
     bonjour          test
    /       \       /        \
