@@ -32,12 +32,49 @@ int main(int argc, char **argv)
         return 2;
     }
     unsigned int *line = (unsigned int *)malloc(sizeof(int));
+    if (line == NULL) {
+        fprintf(stderr, "Erreur : L'allocation a échoué \n");
+        return 1;
+    }
     unsigned int *colonne = (unsigned int *)malloc(sizeof(int));
+    if (colonne == NULL) {
+        fprintf(stderr, "Erreur : L'allocation a échoué \n");
+        return 1;
+    }
     char *word = (char *)malloc(sizeof(char) * maxSizeWord);
+    if (word == NULL) {
+        fprintf(stderr, "Erreur : L'allocation a échoué \n");
+        return 1;
+    }
     dico *dictionary = (dico *)malloc(sizeof(dico));
+    if (dictionary == NULL) {
+        fprintf(stderr, "Erreur : L'allocation a échoué \n");
+        return 1;
+    } else {
+        dictionary->mot = NULL;
+        dictionary->fg = NULL;
+        dictionary->fd = NULL;
+    }   
+    
+
     dico *copiedico = NULL;
-    mot_data_t **serialized_dico =
-        (mot_data_t **)malloc(MaxSizeArray * sizeof(mot_data_t *));
+
+    mot_data_t **serialized_dico = (mot_data_t **)malloc(MaxSizeArray * sizeof(mot_data_t *));
+    if (serialized_dico == NULL) {
+        fprintf(stderr, "Erreur : L'allocation a échoué \n");
+        return 1;
+    } else {
+        (*serialized_dico) = (mot_data_t *)malloc(sizeof(mot_data_t));
+        if (*serialized_dico == NULL) {
+            fprintf(stderr, "Erreur : L'allocation a échoué \n");
+            return 1;
+        } else {
+            (*serialized_dico)->tete_liste = NULL;
+            (*serialized_dico)->queue_liste = NULL;
+        }
+    }
+
+
     while (!feof(f))
     {
         word = next_word(f, line, colonne);
