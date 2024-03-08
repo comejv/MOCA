@@ -1,4 +1,0 @@
-not 1
-or 1
-test 1
-yes 2
