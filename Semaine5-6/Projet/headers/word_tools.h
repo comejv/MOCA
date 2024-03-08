@@ -15,7 +15,7 @@
  * \brief Liste des caractères identifiés comme des séparateurs de mots dans le
  * texte
  */
-#define SEP " ,.-!?;:"
+#define SEP " ',.-!?;:"
 
 /**
  * \fn char *next_word(FILE *f, unsigned int *nblin, unsigned int *nbcol)
