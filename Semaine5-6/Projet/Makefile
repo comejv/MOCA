@@ -3,7 +3,7 @@
 #################
 
 CC=gcc
-CFLAGS=-Wall -Werror
+CFLAGS=-Wall -Werror -fwrapv
 # -I option used here to tell the compiler in which folders to search for the headers (main headers + libs headers)
 CPPFLAGS=-I headers -I $(LIBDIR)/headers 
 # arguments passed to the sub Makefile (along with the $(MAKE) command)

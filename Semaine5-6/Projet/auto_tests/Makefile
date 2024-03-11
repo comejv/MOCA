@@ -3,7 +3,7 @@
 #################
 
 CC=gcc
-CFLAGS=-Wall -Werror
+CFLAGS= -Wall -Werror -fwrapv -I$(HEADERSDIR) -I../headers $(OPTGCOV) $(STACKPROTECTOR) -I$(LIBHEADERSDIR)
 
 # Directories for source files, object files, headers, executable files, and Doxygen documentation
 SRCDIR=sources
@@ -25,7 +25,10 @@ OPTGCOV = -fprofile-arcs -ftest-coverage
 # -fstack-protector-all to place canaries in every function and prevent buffer overflow
 STACKPROTECTOR = -fstack-protector-all
 
-CFLAGS= -I$(HEADERSDIR) -I../headers -Wall $(OPTGCOV) $(STACKPROTECTOR) -I$(LIBHEADERSDIR)
+ifdef DEBUG
+CFLAGS+=-g
+endif
+
 LDFLAGS= $(OPTGCOV) $(STACKPROTECTOR) -lm
 
 

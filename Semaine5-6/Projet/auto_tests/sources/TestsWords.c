@@ -107,6 +107,7 @@ void test_next_word(CuTest * tc) {
 
 void test_incWord(CuTest * tc) {
   emplacement_t* Location = (emplacement_t*) malloc(sizeof(emplacement_t));
+  Location->next = NULL;
   
   incWord(Location, 0, 0);
   CuAssertPtrNotNull(tc, Location->next);

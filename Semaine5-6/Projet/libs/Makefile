@@ -3,7 +3,7 @@
 #################
 
 CC := gcc
-CFLAGS := -Wall -Werror
+CFLAGS := -Wall -Werror -fwrapv
 # If STATIC is undefined, we use the -fPIC (Position Independent Code) compiler option to be able to generate shared libraries afterwards
 # and we add the -lm linker option to get libmath (since we're only going to use gcc in the case of shared libraries, we won't need -lm for 
 # static ones)
