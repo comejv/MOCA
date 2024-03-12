@@ -3,7 +3,8 @@
 #################
 
 CC=gcc
-CFLAGS= -Wall -Werror -fwrapv -I$(HEADERSDIR) -I../headers $(OPTGCOV) $(STACKPROTECTOR) -I$(LIBHEADERSDIR)
+CFLAGS= -Wall -Werror -fwrapv
+CPPFLAGS = -I$(HEADERSDIR) -I../headers $(OPTGCOV) $(STACKPROTECTOR) -I$(LIBHEADERSDIR)
 
 # Directories for source files, object files, headers, executable files, and Doxygen documentation
 SRCDIR=sources
@@ -46,7 +47,7 @@ $(OBJDIR)/%.o:$(SRCDIR)/%.c
 
 # Rule to make the executable files
 $(EXEC): $(OBJS)
-	$(CC) $(OBJS) ../libs/objects/serialization.o ../objects/word_tools.o -o $(EXEC) $(LDFLAGS)
+	$(CC) $(OBJS) ../libs/objects/serialization.o ../objects/word_tools.o ../objects/dico_tools.o -o $(EXEC) $(LDFLAGS)
 
 # Rule to make the tests
 test:
@@ -57,6 +58,7 @@ test:
 	./testDico
 	gcov -b -n -f -s ../sources/ -o ../$(OBJDIR) -c word_tools.c
 	gcov -b -n -f -s ../libs/sources/ -o ../libs/$(OBJDIR) -c serialization.c
+	gcov -b -n -f -s ../sources/ -o ../$(OBJDIR) -c dico_tools.c
 
 # Rule to create all needed directories (-p to disable errors if they already exist)
 ensureDirs:

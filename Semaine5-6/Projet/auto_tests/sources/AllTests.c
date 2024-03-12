@@ -1,10 +1,21 @@
-#include <stdio.h>
-
-#include "CuTest.h"
 #include "AllTests.h"
 
-CuSuite *Tests_Words();
-CuSuite *Tests_Serialization();
+void free_dico(dico *dict) {
+  if (dict) {
+    free_dico(dict->fg);
+    free_dico(dict->fd);
+    emplacement_t *ptr = dict->mot->data.tete_liste;
+    emplacement_t *tmp = ptr;
+    // libération de la liste d'emplacements du noeud courant
+    while (ptr != NULL) {
+      ptr = ptr->next;
+      free(tmp);
+      tmp = ptr;
+    }
+    free(dict->mot);
+    free(dict);
+  }
+}
 
 void RunAllTests (void){
   CuString *output = CuStringNew ();
@@ -12,6 +23,7 @@ void RunAllTests (void){
 
   CuSuiteAddSuite (suite,Tests_Words());
   CuSuiteAddSuite (suite,Tests_Serialization());
+  CuSuiteAddSuite (suite,Tests_Dico());
 
   CuSuiteRun (suite);
   CuSuiteSummary (suite, output);

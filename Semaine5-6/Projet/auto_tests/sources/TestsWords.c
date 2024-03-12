@@ -1,11 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdint.h>
-#include <stdbool.h>
-#include "CuTest.h"
-#include "structures.h"
-#include "word_tools.h"
+#include "TestsWords.h"
 
 #define MAX_MSG_LEN 50
 

@@ -1,11 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdint.h>
-#include <stdbool.h>
-#include "CuTest.h"
-#include "structures.h"
-#include "serialization.h"
+#include "TestsSerialization.h"
 
 void test_hash(CuTest *tc) {
   // tester des cas simples (pas d'overflow)
@@ -26,15 +19,6 @@ void test_hash(CuTest *tc) {
   CuAssertIntEquals(tc, 4632, hash("dit"));
   CuAssertIntEquals(tc, 8648, hash("sous"));
   CuAssertIntEquals(tc, 7083, hash("branches"));
-}
-
-void free_dico(dico *dict) {
-  if (dict) {
-    free_dico(dict->fg);
-    free_dico(dict->fd);
-    free(dict->mot);
-    free(dict);
-  }
 }
 
 void test_serializeDico(CuTest *tc) {
