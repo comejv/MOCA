@@ -52,19 +52,20 @@ CPPFLAGS+=-DFDEBUG=0
 endif
 endif
 
-ifdef TEST
-# required options to use gcov (test coverage tool) used both for compilation and linking
-OPTGCOV := -fprofile-arcs -ftest-coverage
-STACKPROTECTOR := -fstack-protector-all
-CFLAGS += $(OPTGCOV) $(STACKPROTECTOR)
-LDFLAGS += $(OPTGCOV) $(STACKPROTECTOR)
-CFLAGS += -fsanitize=address -g
-LDFLAGS += -fsanitize=address -static-libasan
+# TEST AND SECURITY LIBRARIES
+ifdef GCOV 
+	OPTGCOV=-fprofile-arcs -ftest-coverage
+	CFLAGS+=$(OPTGCOV)
+	LDFLAGS+=$(OPTGCOV)
 endif
 
+# always stack protector
+CFLAGS+=-fstack-protector-all
+LDFLAGS+=-fstack-protector-all
+
 ifdef ASAN
-CFLAGS += -fsanitize=address -g
-LDFLAGS += -fsanitize=address -static-libasan
+	CFLAGS+=-fsanitize=address -g
+	LDFLAGS+=-fsanitize=address -static-libasan
 endif
 
 # Library names

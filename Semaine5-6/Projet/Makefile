@@ -62,18 +62,21 @@ CPPFLAGS+=-DFDEBUG=0
 endif
 endif
 
-# Test mode :
-# -fprofile-arcs -ftest-coverage to be able to run test file and gcov
-# TEST=1 option passed to the sub Makefile (used to generate libraries) to create test files (gcno, gcda) from source files in libraries
-ifdef TEST
+# TEST AND SECURITY LIBRARIES
+UNITEST=GCOV=1
+
+SYSTEST=GCOV=1 ASAN=1
+
+ifdef GCOV 
 	OPTGCOV=-fprofile-arcs -ftest-coverage
-	STACKPROTECTOR=-fstack-protector-all
-	CFLAGS+=$(OPTGCOV) $(STACKPROTECTOR)
-	LDFLAGS+=$(OPTGCOV) $(STACKPROTECTOR)
-	CFLAGS+=-fsanitize=address -g
-	LDFLAGS+=-fsanitize=address -static-libasan
-	MAKEARGS+=TEST=1
+	CFLAGS+=$(OPTGCOV)
+	LDFLAGS+=$(OPTGCOV)
+	MAKEARGS+=GCOV=1
 endif
+
+# always stack protector
+CFLAGS+=-fstack-protector-all
+LDFLAGS+=-fstack-protector-all
 
 ifdef ASAN
 	CFLAGS+=-fsanitize=address -g
@@ -120,13 +123,20 @@ lib:
 	$(MAKE) -C $(LIBDIR) $(MAKEARGS)
 
 # Rule to compile and generate tests files, and show results
-test:
+unitest:
 	$(MAKE) cleanall
-	$(MAKE) TEST=1
+	$(MAKE) $(UNITEST)
 	@echo
 	@echo "----- Compilation des tests + leurs lancements -----"
-	$(MAKE) -C $(TESTDIR)
+	$(MAKE) -C $(TESTDIR) $(UNITEST)
 
+systest:
+	$(MAKE) cleanall
+	$(MAKE) $(SYSTEST)
+	bash auto_tests/systests.bash
+ifeq ($(findstring GCOV=1,$(SYSTEST)),GCOV=1)
+	$(MAKE) showCov
+endif
 
 # Rule to generate automatic documentation (via Doxygen, based on the configuration file located in DOCDIR)
 doc:

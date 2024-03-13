@@ -45,7 +45,8 @@ void test_compareWord(CuTest *tc)
     // strcpy(w2->lemot, "mot");
     // CuAssertIntEquals(tc, 0, compareWord(w1, w1));
     // CuAssertIntEquals(tc, 1, compareWord(w1, w2));
-    // CuAssertIntEquals(tc, -1, compareWord(w2, w1));(tc, -1, compareWord(w2, w1));
+    // CuAssertIntEquals(tc, -1, compareWord(w2, w1));(tc, -1, compareWord(w2,
+    // w1));
 }
 
 void test_next_word(CuTest *tc)
@@ -56,7 +57,9 @@ void test_next_word(CuTest *tc)
     f = fopen("../exemples/test_next_word.txt", "r");
     if (f == NULL)
     {
-        fprintf(stderr, "Erreur d'ouverture du fichier 'exemples/test_next_word.txt'\n");
+        fprintf(
+            stderr,
+            "Erreur d'ouverture du fichier 'exemples/test_next_word.txt'\n");
         exit(-1);
     }
 
@@ -123,6 +126,16 @@ void test_incWord(CuTest *tc)
     CuAssertPtrNotNull(tc, Location->next->next);
     CuAssertIntEquals(tc, 6, Location->next->next->next->line);
     CuAssertIntEquals(tc, 6, Location->next->next->next->colonne);
+
+    // Free
+    emplacement_t *temp;
+
+    while (Location != NULL)
+    {
+        temp = Location->next;
+        free(Location);
+        Location = temp;
+    }
 }
 
 CuSuite *Tests_Words()

@@ -24,24 +24,26 @@ calculate_word_frequency() {
 
 parse_output ()
 {
-    # input_file="$1"
-    # output_file="$2"
+    input_file=$1 
+    output_file=$2
     awk '
+    # Set flag to   1 when a line starts with "2----"
     /^2----/ {
         flag = 1
         next
     }
 
-    # Set flag to   1 when a line starts with "2----"
+    # Skip all lines until the flag is set
     ! flag {
         next
     }
 
-    # Skip all lines until the flag is set
+    # Skip empty lines
     /^$/ {
         next
     }
 
+    # Exit before third category
     /^3---/ {
         exit
     }
