@@ -1,1 +1,1 @@
-src:CuTest.c
+leak:CuStrAlloc

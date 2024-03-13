@@ -51,7 +51,7 @@ test:
 	make $(EXEC)
 	@echo
 	@echo "----- Lancement de l'exécutable des tests et analyse de couverture -----"
-	ASAN_OPTIONS=suppressions=.asan_supp ./testDico
+	LSAN_OPTIONS="suppressions=.asan_supp" ./testDico
 	gcov -b -n -f -s ../sources/ -o ../$(OBJDIR) -c word_tools.c
 	gcov -b -n -f -s ../libs/sources/ -o ../libs/$(OBJDIR) -c serialization.c
 

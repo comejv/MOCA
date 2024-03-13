@@ -74,6 +74,12 @@ ifdef TEST
 	MAKEARGS+=TEST=1
 endif
 
+ifdef ASAN
+	CFLAGS+=-fsanitize=address -g
+	LDFLAGS+=-fsanitize=address -static-libasan
+	MAKEARGS+=ASAN=1
+endif
+
 #############
 ### RULES ###
 #############
