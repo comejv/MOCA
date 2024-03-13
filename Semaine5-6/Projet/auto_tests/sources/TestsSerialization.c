@@ -29,47 +29,47 @@ void test_serializeDico(CuTest *tc)
 
     // construction d'un ABR exemple (dictionnaire) noeud par noeud
     dico *dico_bonjour = (dico *)malloc(sizeof(dico));
-    dico_bonjour->mot = (mot_t *)malloc(sizeof(mot_t));
+    dico_bonjour->mot = (mot_t *)calloc(1, sizeof(mot_t));
     strcpy(dico_bonjour->mot->data.lemot, "bonjour");
     dico_bonjour->mot->lehash = hash("bonjour");
 
     dico *dico_a = (dico *)malloc(sizeof(dico));
-    dico_a->mot = (mot_t *)malloc(sizeof(mot_t));
+    dico_a->mot = (mot_t *)calloc(1, sizeof(mot_t));
     strcpy(dico_a->mot->data.lemot, "a");
     dico_a->mot->lehash = hash("a");
 
     dico *dico_ceci = (dico *)malloc(sizeof(dico));
-    dico_ceci->mot = (mot_t *)malloc(sizeof(mot_t));
+    dico_ceci->mot = (mot_t *)calloc(1, sizeof(mot_t));
     strcpy(dico_ceci->mot->data.lemot, "ceci");
     dico_ceci->mot->lehash = hash("ceci");
 
     dico *dico_de = (dico *)malloc(sizeof(dico));
-    dico_de->mot = (mot_t *)malloc(sizeof(mot_t));
+    dico_de->mot = (mot_t *)calloc(1, sizeof(mot_t));
     strcpy(dico_de->mot->data.lemot, "de");
     dico_de->mot->lehash = hash("de");
 
     dico *dico_test = (dico *)malloc(sizeof(dico));
-    dico_test->mot = (mot_t *)malloc(sizeof(mot_t));
+    dico_test->mot = (mot_t *)calloc(1, sizeof(mot_t));
     strcpy(dico_test->mot->data.lemot, "test");
     dico_test->mot->lehash = hash("test");
 
     dico *dico_serialisation = (dico *)malloc(sizeof(dico));
-    dico_serialisation->mot = (mot_t *)malloc(sizeof(mot_t));
+    dico_serialisation->mot = (mot_t *)calloc(1, sizeof(mot_t));
     strcpy(dico_serialisation->mot->data.lemot, "serialisation");
     dico_serialisation->mot->lehash = hash("serialisation");
 
     dico *dico_tous = (dico *)malloc(sizeof(dico));
-    dico_tous->mot = (mot_t *)malloc(sizeof(mot_t));
+    dico_tous->mot = (mot_t *)calloc(1, sizeof(mot_t));
     strcpy(dico_tous->mot->data.lemot, "tous");
     dico_tous->mot->lehash = hash("tous");
 
     dico *dico_un = (dico *)malloc(sizeof(dico));
-    dico_un->mot = (mot_t *)malloc(sizeof(mot_t));
+    dico_un->mot = (mot_t *)calloc(1, sizeof(mot_t));
     strcpy(dico_un->mot->data.lemot, "un");
     dico_un->mot->lehash = hash("un");
 
     dico *dico_est = (dico *)malloc(sizeof(dico));
-    dico_est->mot = (mot_t *)malloc(sizeof(mot_t));
+    dico_est->mot = (mot_t *)calloc(1, sizeof(mot_t));
     strcpy(dico_est->mot->data.lemot, "est");
     dico_est->mot->lehash = hash("est");
 
