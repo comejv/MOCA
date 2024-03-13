@@ -57,6 +57,13 @@ ifdef TEST
 OPTGCOV := -fprofile-arcs -ftest-coverage
 CFLAGS += $(OPTGCOV)
 LDFLAGS += $(OPTGCOV)
+CFLAGS += -fsanitize=address -g
+LDFLAGS += -fsanitize=address -static-libasan
+endif
+
+ifdef ASAN
+CFLAGS += -fsanitize=address -g
+LDFLAGS += -fsanitize=address -static-libasan
 endif
 
 # Library names

@@ -25,6 +25,9 @@ OPTGCOV = -fprofile-arcs -ftest-coverage
 CFLAGS= -I$(HEADERSDIR) -I../headers -Wall $(OPTGCOV) -I$(LIBHEADERSDIR)
 LDFLAGS= $(OPTGCOV) -lm
 
+CFLAGS+=-fsanitize=address -g
+LDFLAGS+=-fsanitize=address -static-libasan
+MAKEARGS+=TEST=1
 
 #############
 ### RULES ###
@@ -48,7 +51,7 @@ test:
 	make $(EXEC)
 	@echo
 	@echo "----- Lancement de l'exécutable des tests et analyse de couverture -----"
-	./testDico
+	LSAN_OPTIONS="suppressions=.asan_supp" ./testDico
 	gcov -b -n -f -s ../sources/ -o ../$(OBJDIR) -c word_tools.c
 	gcov -b -n -f -s ../libs/sources/ -o ../libs/$(OBJDIR) -c serialization.c
 
