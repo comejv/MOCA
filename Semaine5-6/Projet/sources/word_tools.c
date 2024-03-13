@@ -63,8 +63,7 @@ int compareWord(mot_data_t *w1, mot_data_t *w2)
     {
         char *word1 = w1->lemot;
         char *word2 = w2->lemot;
-        int minSize =
-            (strlen(word1) < strlen(word2)) ? strlen(word1) : strlen(word2);
+        int minSize = (strlen(word1) < strlen(word2)) ? strlen(word1) : strlen(word2);
         int i = 0;
         int pos = 0;
         while (i < minSize && pos == 0)

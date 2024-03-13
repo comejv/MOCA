@@ -57,6 +57,12 @@ void insertDico(dico **dictionary, mot_t *linkWord)
 
 void addToDico(dico **dictionary, char *word, unsigned int *line, unsigned int *colonne)
 {
+    if (dictionary == NULL)
+    {
+        fprintf(stderr, "Erreur : Le dictionnaire fourni à addToDico est un pointeur nul\n");
+        exit(1);
+    }
+
     mot_t *newLinkWord = (mot_t *)malloc(sizeof(mot_t));
     if (newLinkWord == NULL)
     {

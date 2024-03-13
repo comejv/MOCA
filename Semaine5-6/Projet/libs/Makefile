@@ -3,7 +3,7 @@
 #################
 
 CC := gcc
-CFLAGS := -Wall -Werror
+CFLAGS := -Wall -Werror -fwrapv
 # If STATIC is undefined, we use the -fPIC (Position Independent Code) compiler option to be able to generate shared libraries afterwards
 # and we add the -lm linker option to get libmath (since we're only going to use gcc in the case of shared libraries, we won't need -lm for 
 # static ones)
@@ -55,8 +55,9 @@ endif
 ifdef TEST
 # required options to use gcov (test coverage tool) used both for compilation and linking
 OPTGCOV := -fprofile-arcs -ftest-coverage
-CFLAGS += $(OPTGCOV)
-LDFLAGS += $(OPTGCOV)
+STACKPROTECTOR := -fstack-protector-all
+CFLAGS += $(OPTGCOV) $(STACKPROTECTOR)
+LDFLAGS += $(OPTGCOV) $(STACKPROTECTOR)
 CFLAGS += -fsanitize=address -g
 LDFLAGS += -fsanitize=address -static-libasan
 endif

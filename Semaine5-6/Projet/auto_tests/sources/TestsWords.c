@@ -1,10 +1,4 @@
-#include "CuTest.h"
-#include "structures.h"
-#include "word_tools.h"
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "TestsWords.h"
 
 #define MAX_MSG_LEN 50
 
@@ -12,8 +6,8 @@ void test_compareWord(CuTest *tc)
 {
     mot_data_t *w1;
     mot_data_t *w2;
-    w1 = (mot_data_t *) malloc(sizeof(mot_data_t));
-    w2 = (mot_data_t *) malloc(sizeof(mot_data_t));
+    w1 = (mot_data_t *)malloc(sizeof(mot_data_t));
+    w2 = (mot_data_t *)malloc(sizeof(mot_data_t));
 
     strcpy(w1->lemot, "mot");
     strcpy(w2->lemot, "mot");
@@ -110,7 +104,7 @@ void test_next_word(CuTest *tc)
 
 void test_incWord(CuTest *tc)
 {
-    emplacement_t *Location = (emplacement_t *) malloc(sizeof(emplacement_t));
+    emplacement_t *Location = (emplacement_t *)malloc(sizeof(emplacement_t));
     Location->next = NULL;
     Location->line = 0;
     Location->colonne = 0;
