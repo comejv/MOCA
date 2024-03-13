@@ -2,38 +2,43 @@
 ### VARIABLES ###
 #################
 
-CC=gcc
-CFLAGS= -Wall -Werror -fwrapv -Wno-unused-function
-CPPFLAGS = -I$(HEADERSDIR) -I../headers $(OPTGCOV) $(STACKPROTECTOR) -I$(LIBHEADERSDIR)
+CC = gcc
+CFLAGS = -Wall -Werror -fwrapv
+CPPFLAGS = -I$(HEADERSDIR) -I../headers -I$(LIBHEADERSDIR)
 
 # Directories for source files, object files, headers, executable files, and Doxygen documentation
-SRCDIR=sources
-OBJDIR=objects
-HEADERSDIR=headers
-EXECDIR=.
-LIBHEADERSDIR=../libs/headers
+SRCDIR = sources
+OBJDIR = objects
+HEADERSDIR = headers
+EXECDIR = .
+LIBHEADERSDIR = ../libs/headers
 
 # Files names : sources, headers, objects, objects that correspond to an executable file name, and executable files
-SRCS=$(wildcard $(SRCDIR)/*.c)
-HEADERS=$(wildcard $(HEADERSDIR)/*.h)
-OBJS=$(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
-EXEC=testDico
-
-# -fprofile-arcs -ftest-coverage to be able to run test file and gcov
-OPTGCOV = -fprofile-arcs -ftest-coverage
+SRCS = $(wildcard $(SRCDIR)/*.c)
+HEADERS = $(wildcard $(HEADERSDIR)/*.h)
+OBJS = $(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+EXEC = testDico
 
 # -fstack-protector-all to place canaries in every function and prevent buffer overflow
 STACKPROTECTOR = -fstack-protector-all
+
+LDFLAGS += $(STACKPROTECTOR) -lm
+CFLAGS += -g $(STACKPROTECTOR)
+
+ifdef GCOV 
+	OPTGCOV=-fprofile-arcs -ftest-coverage
+	CFLAGS+=$(OPTGCOV)
+	LDFLAGS+=$(OPTGCOV)
+endif
 
 ifdef DEBUG
 CFLAGS+=-g
 endif
 
-LDFLAGS= $(OPTGCOV) $(STACKPROTECTOR) -lm
-
-CFLAGS+=-fsanitize=address -g
-LDFLAGS+=-fsanitize=address -static-libasan
-MAKEARGS+=TEST=1
+ifdef ASAN
+	CFLAGS+=-fsanitize=address -g
+	LDFLAGS+=-fsanitize=address -static-libasan
+endif
 
 #############
 ### RULES ###
@@ -58,9 +63,11 @@ test:
 	@echo
 	@echo "----- Lancement de l'exécutable des tests et analyse de couverture -----"
 	LSAN_OPTIONS="suppressions=.asan_supp" ./testDico
+ifdef GCOV
 	gcov -b -n -f -s ../sources/ -o ../$(OBJDIR) -c word_tools.c
 	gcov -b -n -f -s ../libs/sources/ -o ../libs/$(OBJDIR) -c serialization.c
 	gcov -b -n -f -s ../sources/ -o ../$(OBJDIR) -c dico_tools.c
+endif
 
 # Rule to create all needed directories (-p to disable errors if they already exist)
 ensureDirs:
