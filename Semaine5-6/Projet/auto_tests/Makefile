@@ -16,8 +16,7 @@ LIBHEADERSDIR=../libs/headers
 SRCS=$(wildcard $(SRCDIR)/*.c)
 HEADERS=$(wildcard $(HEADERSDIR)/*.h)
 OBJS=$(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
-MAIN_OBJS=$(OBJDIR)/testDico.o
-EXEC=$(MAIN_OBJS:$(OBJDIR)/%.o=$(EXECDIR)/%)
+EXEC=testDico
 
 # -fprofile-arcs -ftest-coverage to be able to run test file and gcov
 OPTGCOV = -fprofile-arcs -ftest-coverage
