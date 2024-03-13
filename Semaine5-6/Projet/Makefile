@@ -70,7 +70,15 @@ ifdef TEST
 	STACKPROTECTOR=-fstack-protector-all
 	CFLAGS+=$(OPTGCOV) $(STACKPROTECTOR)
 	LDFLAGS+=$(OPTGCOV) $(STACKPROTECTOR)
+	CFLAGS+=-fsanitize=address -g
+	LDFLAGS+=-fsanitize=address -static-libasan
 	MAKEARGS+=TEST=1
+endif
+
+ifdef ASAN
+	CFLAGS+=-fsanitize=address -g
+	LDFLAGS+=-fsanitize=address -static-libasan
+	MAKEARGS+=ASAN=1
 endif
 
 #############
@@ -118,6 +126,7 @@ test:
 	@echo
 	@echo "----- Compilation des tests + leurs lancements -----"
 	$(MAKE) -C $(TESTDIR)
+
 
 # Rule to generate automatic documentation (via Doxygen, based on the configuration file located in DOCDIR)
 doc:

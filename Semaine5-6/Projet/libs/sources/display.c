@@ -1,4 +1,5 @@
 #include "display.h"
+#include <stdlib.h>
 
 void displayWord(mot_data_t *word, FILE *filedes)
 {
@@ -50,8 +51,7 @@ void displayDico(dico *dictionary)
     else
     {
         fprintf(f, "Contenu dictionnaire pour %s : \n", TEXTE);
-        dico *tempDico = (dico *)malloc(sizeof(dico));
-        tempDico = dictionary;
+        dico *tempDico = dictionary;
         displayNodes(tempDico, f);
         fflush(f);
     }

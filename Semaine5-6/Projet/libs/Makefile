@@ -58,6 +58,13 @@ OPTGCOV := -fprofile-arcs -ftest-coverage
 STACKPROTECTOR := -fstack-protector-all
 CFLAGS += $(OPTGCOV) $(STACKPROTECTOR)
 LDFLAGS += $(OPTGCOV) $(STACKPROTECTOR)
+CFLAGS += -fsanitize=address -g
+LDFLAGS += -fsanitize=address -static-libasan
+endif
+
+ifdef ASAN
+CFLAGS += -fsanitize=address -g
+LDFLAGS += -fsanitize=address -static-libasan
 endif
 
 # Library names

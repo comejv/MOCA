@@ -1,8 +1,10 @@
 #include "dico_tools.h"
 #include "display.h"
+#include "free.h"
 #include "serialization.h"
 #include "structures.h"
 #include "word_tools.h"
+#include <stdlib.h>
 
 int main(int argc, char **argv)
 {
@@ -32,58 +34,51 @@ int main(int argc, char **argv)
         return 2;
     }
     unsigned int *line = (unsigned int *)malloc(sizeof(int));
-    if (line == NULL) {
+    if (line == NULL)
+    {
         fprintf(stderr, "Erreur : L'allocation a échoué \n");
         return 1;
     }
     unsigned int *colonne = (unsigned int *)malloc(sizeof(int));
-    if (colonne == NULL) {
+    if (colonne == NULL)
+    {
         fprintf(stderr, "Erreur : L'allocation a échoué \n");
+        free(line);
         return 1;
     }
-    char *word = (char *)malloc(sizeof(char) * maxSizeWord);
-    if (word == NULL) {
-        fprintf(stderr, "Erreur : L'allocation a échoué \n");
-        return 1;
-    }
+    char *word = NULL;
     dico *dictionary = (dico *)malloc(sizeof(dico));
-    if (dictionary == NULL) {
+    if (dictionary == NULL)
+    {
         fprintf(stderr, "Erreur : L'allocation a échoué \n");
+        free(line);
+        free(colonne);
         return 1;
-    } else {
+    }
+    else
+    {
         dictionary->mot = NULL;
         dictionary->fg = NULL;
         dictionary->fd = NULL;
-    }   
-    
+    }
 
     dico *copiedico = NULL;
 
-    mot_data_t **serialized_dico = (mot_data_t **)malloc(MaxSizeArray * sizeof(mot_data_t *));
-    if (serialized_dico == NULL) {
+    mot_data_t **serialized_dico = (mot_data_t **)calloc(MaxSizeArray, sizeof(mot_data_t *));
+    if (serialized_dico == NULL)
+    {
         fprintf(stderr, "Erreur : L'allocation a échoué \n");
         return 1;
-    } else {
-        (*serialized_dico) = (mot_data_t *)malloc(sizeof(mot_data_t));
-        if (*serialized_dico == NULL) {
-            fprintf(stderr, "Erreur : L'allocation a échoué \n");
-            return 1;
-        } else {
-            (*serialized_dico)->tete_liste = NULL;
-            (*serialized_dico)->queue_liste = NULL;
-        }
     }
-
 
     while (!feof(f))
     {
         word = next_word(f, line, colonne);
         addToDico(&dictionary, word, line, colonne);
+        free(word);
     }
     printf("1-----Affichage du dictionnaire une fois rempli-----\n");
     displayDico(dictionary);
-    for (i = 0; i < MaxSizeArray; i++)
-        serialized_dico[i] = NULL;
     serializeDico(dictionary, serialized_dico);
     printf("\n2-----Affichage de la table de mots après sérialisation-----\n");
     for (i = 0; i < MaxSizeArray; i++)
@@ -92,6 +87,10 @@ int main(int argc, char **argv)
             printf("Index %d -> ", i);
             displayWord(serialized_dico[i], stdout);
         }
+
+    free(line);
+    free(colonne);
+
     /*
     struct json_object *o;
     o = createJSON(serialized_dico);
@@ -108,6 +107,8 @@ int main(int argc, char **argv)
     printf("\n3-----Affichage des noeuds du dictionnaire après "
            "désérialisation-----\n");
     displayNodes(copiedico, stdout);
+    free(serialized_dico);
+    freeDico(dictionary);
     fclose(f);
     return 0;
 }

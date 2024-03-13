@@ -3,7 +3,7 @@
 #################
 
 CC=gcc
-CFLAGS= -Wall -Werror -fwrapv
+CFLAGS= -Wall -Werror -fwrapv -Wno-unused-function
 CPPFLAGS = -I$(HEADERSDIR) -I../headers $(OPTGCOV) $(STACKPROTECTOR) -I$(LIBHEADERSDIR)
 
 # Directories for source files, object files, headers, executable files, and Doxygen documentation
@@ -17,8 +17,7 @@ LIBHEADERSDIR=../libs/headers
 SRCS=$(wildcard $(SRCDIR)/*.c)
 HEADERS=$(wildcard $(HEADERSDIR)/*.h)
 OBJS=$(SRCS:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
-MAIN_OBJS=$(OBJDIR)/testDico.o
-EXEC=$(MAIN_OBJS:$(OBJDIR)/%.o=$(EXECDIR)/%)
+EXEC=testDico
 
 # -fprofile-arcs -ftest-coverage to be able to run test file and gcov
 OPTGCOV = -fprofile-arcs -ftest-coverage
@@ -32,6 +31,9 @@ endif
 
 LDFLAGS= $(OPTGCOV) $(STACKPROTECTOR) -lm
 
+CFLAGS+=-fsanitize=address -g
+LDFLAGS+=-fsanitize=address -static-libasan
+MAKEARGS+=TEST=1
 
 #############
 ### RULES ###
@@ -47,7 +49,7 @@ $(OBJDIR)/%.o:$(SRCDIR)/%.c
 
 # Rule to make the executable files
 $(EXEC): $(OBJS)
-	$(CC) $(OBJS) ../libs/objects/serialization.o ../objects/word_tools.o ../objects/dico_tools.o -o $(EXEC) $(LDFLAGS)
+	$(CC) $(OBJS) ../libs/objects/serialization.o ../objects/word_tools.o ../objects/dico_tools.o ../objects/free.o -o $(EXEC) $(LDFLAGS)
 
 # Rule to make the tests
 test:
@@ -55,7 +57,7 @@ test:
 	make $(EXEC)
 	@echo
 	@echo "----- Lancement de l'exécutable des tests et analyse de couverture -----"
-	./testDico
+	LSAN_OPTIONS="suppressions=.asan_supp" ./testDico
 	gcov -b -n -f -s ../sources/ -o ../$(OBJDIR) -c word_tools.c
 	gcov -b -n -f -s ../libs/sources/ -o ../libs/$(OBJDIR) -c serialization.c
 	gcov -b -n -f -s ../sources/ -o ../$(OBJDIR) -c dico_tools.c
