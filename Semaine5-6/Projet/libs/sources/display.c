@@ -55,4 +55,5 @@ void displayDico(dico *dictionary)
         displayNodes(tempDico, f);
         fflush(f);
     }
+    fclose(f);
 }
