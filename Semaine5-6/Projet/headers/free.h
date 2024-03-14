@@ -27,10 +27,10 @@ void freeEmplacement(emplacement_t *emplacement);
 /**
  * @brief Frees the memory allocated for a `mot_data_t` structure.
  *
- * This function frees the memory for the `mot_data_t` structure, including the
- * linked list of `emplacement_t` structures pointed to by `tete_liste`.
+ * This function frees the memory for a `mot_data_t` table, including the
+ * linked list of `emplacement_t` structures pointed to by `tete_liste` for each `mot_data_t`.
  *
- * @param motData Pointer to the `mot_data_t` structure to be freed.
+ * @param motData Pointer to the `mot_data_t` table structure to be freed.
  */
 void freeMotData(mot_data_t **motData);
 

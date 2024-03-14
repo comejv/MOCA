@@ -108,8 +108,23 @@ int main(int argc, char **argv)
            "désérialisation-----\n");
     displayNodes(copiedico, stdout);
 
+    // Stratégie de libération des blocs mémoire
+
+    // Les noeuds (dico *) de dictionary et copiedico correspondent à des adresses différentes (parce qu'on malloc les noeuds dans deserializeDico pour
+    // construire copiedico), mais les structures de mots que ces dictionnaires contiennent sont associées aux mêmes pointeurs (car dans deserializeDico,
+    // on relie les noeuds de copiedico aux pointeurs de mot_data_t contenus dans la table serialized_dico) !
+
+    // En fin de programme, on a donc l'ensemble des structures de mot_data_t (utilisées à la fois par dictionary et par copiedico) 
+    // contenu dans serialized_dico, tandis que les pointeurs associés aux noeuds de dictionary et copiedico sont différents. 
+
+    // Il faut donc libérer d'abord les structures de mot_data_t de serialized_dico afin de libérer les chaînes d'emplacements contenues à la fois
+    // dans dictionary et copiedico, puis libérer les structures de mot_t et les noeuds des deux dictionnaires.
+
+    // Libération des structures de mot_data_t communes aux deux dictionnaires (et leurs chaînes d'emplacements allouées)
     freeMotData(serialized_dico);
  
+    // Les emplacements de mots ont été libérés dans les deux dictionnaires à la fois, il ne reste qu'à libérer les structures de mot_t et les noeuds
+    // séparément
     freeDico(dictionary);
     freeDico(copiedico);
 
