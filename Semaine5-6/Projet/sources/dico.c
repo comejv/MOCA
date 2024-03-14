@@ -107,8 +107,12 @@ int main(int argc, char **argv)
     printf("\n3-----Affichage des noeuds du dictionnaire après "
            "désérialisation-----\n");
     displayNodes(copiedico, stdout);
-    free(serialized_dico);
+
+    freeMotData(serialized_dico);
+ 
     freeDico(dictionary);
+    freeDico(copiedico);
+
     fclose(f);
     return 0;
 }

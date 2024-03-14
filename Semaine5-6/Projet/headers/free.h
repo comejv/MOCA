@@ -12,6 +12,7 @@
 #define FREE_H
 
 #include "structures.h" // Include the header file with data structure definitions
+#include "serialization.h" // Include the header file with MaxSizeArray definitions
 
 /**
  * @brief Frees the memory allocated for an `emplacement_t` structure.
@@ -31,7 +32,7 @@ void freeEmplacement(emplacement_t *emplacement);
  *
  * @param motData Pointer to the `mot_data_t` structure to be freed.
  */
-void freeMotData(mot_data_t *motData);
+void freeMotData(mot_data_t **motData);
 
 /**
  * @brief Frees the memory allocated for a `mot_t` structure.
