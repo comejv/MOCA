@@ -62,7 +62,9 @@ CPPFLAGS+=-DFDEBUG=0
 endif
 endif
 
-# TEST AND SECURITY LIBRARIES
+# Instrumentation librairies
+# one variable per test target
+# changing here will affect all other makefiles
 UNITEST=GCOV=1
 
 SYSTEST=GCOV=1 ASAN=1
