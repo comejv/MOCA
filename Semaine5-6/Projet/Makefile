@@ -7,7 +7,6 @@ CFLAGS=-Wall -Werror -fwrapv
 # -I option used here to tell the compiler in which folders to search for the headers (main headers + libs headers)
 CPPFLAGS=-I headers -I $(LIBDIR)/headers 
 # arguments passed to the sub Makefile (along with the $(MAKE) command)
-MAKEARGS=
 
 # -Wl,-rpath,libs/libs/ add a directory to find our libraries (allows us to omit the use of "export LD_LIBRARY_PATH=./libs/libs/:$LD_LIBRARY_PATH")
 LDFLAGS=-Wl,-rpath,$(LIBDIR)/libs/
@@ -15,7 +14,6 @@ LDFLAGS=-Wl,-rpath,$(LIBDIR)/libs/
 # Otherwise, we want to generate shared libraries, whose name end with ".so" and force a dynamic link with libs display and serialization
 ifdef STATIC
 LIBEXT=.a
-MAKEARGS+=STATIC=1
 else
 LIBEXT=.so
 endif
@@ -48,7 +46,6 @@ EXEC=$(MAIN_OBJS:$(OBJDIR)/%.o=$(EXECDIR)/%)
 # DEBUG=1 option passed to the sub Makefile (used to generate libraries) to activate debug mode in libraries source files too
 ifdef DEBUG
 CFLAGS+=-g 
-MAKEARGS += DEBUG=$(DEBUG)
 ifeq ($(DEBUG),LIBS)
 CPPFLAGS+=-DFDEBUG=1
 else ifeq ($(DEBUG),DICO)
@@ -73,7 +70,6 @@ ifdef GCOV
 	OPTGCOV=-fprofile-arcs -ftest-coverage
 	CFLAGS+=$(OPTGCOV)
 	LDFLAGS+=$(OPTGCOV)
-	MAKEARGS+=GCOV=1
 endif
 
 # always stack protector
@@ -83,7 +79,6 @@ LDFLAGS+=-fstack-protector-all
 ifdef ASAN
 	CFLAGS+=-fsanitize=address -g
 	LDFLAGS+=-fsanitize=address -static-libasan
-	MAKEARGS+=ASAN=1
 endif
 
 #############
@@ -122,10 +117,11 @@ lib:
 	@echo
 	@echo "----- Nettoyage et compilation des librairies -----"
 	$(MAKE) -C $(LIBDIR) clean
-	$(MAKE) -C $(LIBDIR) $(MAKEARGS)
+	$(MAKE) -C $(LIBDIR) 
 
 # Rule to compile and generate tests files, and show results
 unitest:
+	@echo "UNITESTS : $(UNITEST)"
 	$(MAKE) cleanall
 	$(MAKE) $(UNITEST)
 	@echo
