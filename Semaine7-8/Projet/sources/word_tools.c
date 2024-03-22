@@ -6,6 +6,7 @@ unsigned int current_col = 1;
 
 char *next_word(FILE *f, unsigned int *nblin, unsigned int *nbcol)
 {
+    // TODO word is limited to 100 characters, change to dynamic alloc
     char s[100];
     char *res;
     unsigned int i = 0, startl = current_line, startc = current_col;
@@ -32,7 +33,7 @@ char *next_word(FILE *f, unsigned int *nblin, unsigned int *nbcol)
     startc++;
     sep = s[i];
     s[i] = '\0';
-    res = (char *)malloc(strlen(s) + 1);
+    res = (char *) malloc(strlen(s) + 1);
     strcpy(res, s);
     while (strchr(separators, sep) != NULL || sep == '\n')
     {
@@ -68,7 +69,8 @@ int compareWord(mot_data_t *w1, mot_data_t *w2)
         int pos = 0;
         while (i < minSize && pos == 0)
         {
-            pos = (word1[i] < word2[i]) ? -1 : (word1[i] > word2[i]) ? 1 : 0;
+            pos = (word1[i] < word2[i]) ? -1 : (word1[i] > word2[i]) ? 1
+                                                                     : 0;
             i++;
         }
         return (pos == 0 && strlen(word1) < strlen(word2))   ? -1
@@ -80,7 +82,7 @@ int compareWord(mot_data_t *w1, mot_data_t *w2)
 void incWord(emplacement_t *location, unsigned int line, unsigned int colonne)
 {
     // TODO gérer erreur allocation
-    emplacement_t *newLocation = (emplacement_t *)malloc(sizeof(emplacement_t));
+    emplacement_t *newLocation = (emplacement_t *) malloc(sizeof(emplacement_t));
 
     while (location->next != NULL)
     {

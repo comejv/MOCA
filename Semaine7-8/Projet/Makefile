@@ -85,7 +85,11 @@ ifdef ASAN
 endif
 
 ifdef AFL
-	CC=afl-gcc-fast
+	ifeq ($(shell which afl-gcc-fast 2>/dev/null), )  # Check if afl-gcc-fast exists
+		CC=afl-clang-fast  # Use afl-clang-fast as fallback
+	else
+		CC=afl-gcc-fast
+	endif
 endif
 
 #############
