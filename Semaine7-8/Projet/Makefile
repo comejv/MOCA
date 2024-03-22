@@ -86,7 +86,11 @@ endif
 
 ifdef AFL
 	ifeq ($(shell which afl-gcc-fast 2>/dev/null), )  # Check if afl-gcc-fast exists
-		CC=afl-clang-fast  # Use afl-clang-fast as fallback
+			ifeq ($(shell which afl-gcc 2>/dev/null), )
+				$(error Please install afl-gcc-fast or afl-gcc)
+			else
+				CC=afl-gcc
+			endif
 	else
 		CC=afl-gcc-fast
 	endif
