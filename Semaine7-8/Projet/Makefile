@@ -32,6 +32,7 @@ EXECDIR=.
 DOCDIR=documentation
 RESDIR=resultats
 TESTDIR=auto_tests
+AFLOUTDIR=$(TESTDIR)/afl_out
 
 # Files names : sources, headers, objects, objects that correspond to an executable file name, and executable files
 SRCS=$(wildcard $(SRCDIR)/*.c)
@@ -66,6 +67,8 @@ UNITEST=GCOV=1
 
 SYSTEST=GCOV=1 ASAN=1
 
+AFLTEST=AFL_USE_ASAN=1 AFL_DONT_OPTIMIZE=1 ASAN=1 AFL=1
+
 ifdef GCOV 
 	OPTGCOV=-fprofile-arcs -ftest-coverage
 	CFLAGS+=$(OPTGCOV)
@@ -79,6 +82,10 @@ LDFLAGS+=-fstack-protector-all
 ifdef ASAN
 	CFLAGS+=-fsanitize=address -g
 	LDFLAGS+=-fsanitize=address -static-libasan
+endif
+
+ifdef AFL
+	CC=afl-gcc-fast
 endif
 
 #############
@@ -136,6 +143,11 @@ ifeq ($(findstring GCOV=1,$(SYSTEST)),GCOV=1)
 	$(MAKE) showCov
 endif
 
+afltest:
+	$(MAKE) cleanall
+	$(MAKE) $(AFLTEST)
+	AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1 AFL_SKIP_CPUFREQ=1 AFL_USE_ASAN=1 afl-fuzz -D -i ./exemples/afl/ -o $(AFLOUTDIR) $(EXEC) @@
+
 # Rule to generate automatic documentation (via Doxygen, based on the configuration file located in DOCDIR)
 doc:
 	@echo
@@ -148,6 +160,7 @@ ensureDirs:
 	@mkdir -p $(EXECDIR)
 	@mkdir -p $(DOCDIR)
 	@mkdir -p $(RESDIR)
+	@mkdir -p $(AFLOUTDIR)
 
 showCov:
 	@gcov -b -o $(OBJDIR) -c $(SRCS)
@@ -163,6 +176,7 @@ cleanall :
 	@echo
 	@echo "----- Nettoyage du repertoire auto_tests -----"
 	$(MAKE) -C $(TESTDIR) clean
+	-rm -r $(AFLOUTDIR)
 
 # Rule to clean the workspace
 # The LIBCLEAN option can be specified in command line to also clean the libraries (libs) subdirectory (through the sub Makefile)

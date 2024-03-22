@@ -68,6 +68,10 @@ ifdef ASAN
 	LDFLAGS+=-fsanitize=address -static-libasan
 endif
 
+ifdef AFL
+	CC=afl-gcc-fast
+endif
+
 # Library names
 DISPLAY_LIB_NAME := $(LIBDIR)/libdisplay$(LIB_EXT)
 SERIALIZATION_LIB_NAME := $(LIBDIR)/libserialization$(LIB_EXT)
