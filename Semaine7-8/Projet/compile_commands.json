@@ -1,0 +1,89 @@
+[
+ {
+  "directory": "/home/comev/MOCA/team2/Semaine5-6/Projet/libs",
+  "arguments": [
+   "gcc",
+   "-Wall",
+   "-Werror",
+   "-fPIC",
+   "-I",
+   "headers",
+   "-I",
+   "../headers",
+   "-c",
+   "-o",
+   "objects/display.o",
+   "sources/display.c"
+  ],
+  "file": "sources/display.c"
+ },
+ {
+  "directory": "/home/comev/MOCA/team2/Semaine5-6/Projet/libs",
+  "arguments": [
+   "gcc",
+   "-Wall",
+   "-Werror",
+   "-fPIC",
+   "-I",
+   "headers",
+   "-I",
+   "../headers",
+   "-c",
+   "-o",
+   "objects/serialization.o",
+   "sources/serialization.c"
+  ],
+  "file": "sources/serialization.c"
+ },
+ {
+  "directory": "/home/comev/MOCA/team2/Semaine5-6/Projet",
+  "arguments": [
+   "gcc",
+   "-Wall",
+   "-Werror",
+   "-I",
+   "headers",
+   "-I",
+   "libs/headers",
+   "-c",
+   "sources/dico.c",
+   "-o",
+   "objects/dico.o"
+  ],
+  "file": "sources/dico.c"
+ },
+ {
+  "directory": "/home/comev/MOCA/team2/Semaine5-6/Projet",
+  "arguments": [
+   "gcc",
+   "-Wall",
+   "-Werror",
+   "-I",
+   "headers",
+   "-I",
+   "libs/headers",
+   "-c",
+   "sources/dico_tools.c",
+   "-o",
+   "objects/dico_tools.o"
+  ],
+  "file": "sources/dico_tools.c"
+ },
+ {
+  "directory": "/home/comev/MOCA/team2/Semaine5-6/Projet",
+  "arguments": [
+   "gcc",
+   "-Wall",
+   "-Werror",
+   "-I",
+   "headers",
+   "-I",
+   "libs/headers",
+   "-c",
+   "sources/word_tools.c",
+   "-o",
+   "objects/word_tools.o"
+  ],
+  "file": "sources/word_tools.c"
+ }
+]
