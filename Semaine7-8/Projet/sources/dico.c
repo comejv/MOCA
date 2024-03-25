@@ -4,6 +4,7 @@
 #include "serialization.h"
 #include "structures.h"
 #include "word_tools.h"
+#include "macro.h"
 #include <stdlib.h>
 
 int main(int argc, char **argv)
@@ -30,30 +31,26 @@ int main(int argc, char **argv)
     }
     if (f == NULL)
     {
-        fprintf(stderr, "Erreur d'ouverture du fichier %s\n", nom);
-        return 2;
+        ERROR(FILEOPENFAIL, "Erreur d'ouverture du fichier %s\n", nom);
     }
     unsigned int *line = (unsigned int *)malloc(sizeof(int));
     if (line == NULL)
     {
-        fprintf(stderr, "Erreur : L'allocation a échoué \n");
-        return 1;
+        ERROR(MALLOCFAIL, "Erreur : L'allocation de line a échoué \n");
     }
     unsigned int *colonne = (unsigned int *)malloc(sizeof(int));
     if (colonne == NULL)
     {
-        fprintf(stderr, "Erreur : L'allocation a échoué \n");
         free(line);
-        return 1;
+        ERROR(MALLOCFAIL, "Erreur : L'allocation de colonne a échoué \n");
     }
     char *word = NULL;
     dico *dictionary = (dico *)malloc(sizeof(dico));
     if (dictionary == NULL)
     {
-        fprintf(stderr, "Erreur : L'allocation a échoué \n");
         free(line);
         free(colonne);
-        return 1;
+        ERROR(MALLOCFAIL, "Erreur : L'allocation de dictionary a échoué \n");
     }
     else
     {
@@ -67,8 +64,7 @@ int main(int argc, char **argv)
     mot_data_t **serialized_dico = (mot_data_t **)calloc(MaxSizeArray, sizeof(mot_data_t *));
     if (serialized_dico == NULL)
     {
-        fprintf(stderr, "Erreur : L'allocation a échoué \n");
-        return 1;
+        ERROR(MALLOCFAIL, "Erreur : L'allocation de serialized_dico a échoué \n");
     }
 
     while (!feof(f))

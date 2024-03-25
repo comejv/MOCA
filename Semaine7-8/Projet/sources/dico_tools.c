@@ -4,14 +4,12 @@ void insertDico(dico **dictionary, mot_t *linkWord)
 {
     if (dictionary == NULL)
     {
-        fprintf(stderr, "Erreur : Le dictionnaire fourni à insertDico est un pointeur nul\n");
-        exit(1);
+        ERROR(NULLPOINTER, "Erreur : Le dictionnaire fourni à insertDico est un pointeur nul\n");
     }
 
     if (linkWord == NULL)
     {
-        fprintf(stderr, "Erreur : Le mot fourni à insertDico est un pointeur nul\n");
-        exit(1);
+        ERROR(NULLPOINTER, "Erreur : Le mot fourni à insertDico est un pointeur nul\n");
     }
 
     dico *newDictionary = *dictionary;
@@ -24,8 +22,7 @@ void insertDico(dico **dictionary, mot_t *linkWord)
         newDictionary = (dico *)malloc(sizeof(dico));
         if (newDictionary == NULL)
         {
-            fprintf(stderr, "Erreur : L'allocation a échoué \n");
-            exit(1);
+            ERROR(MALLOCFAIL, "Erreur : L'allocation de newDictionary a échoué \n");
         }
         newDictionary->mot = linkWord;
         newDictionary->fg = newDictionary->fd = NULL;
@@ -59,22 +56,19 @@ void addToDico(dico **dictionary, char *word, unsigned int *line, unsigned int *
 {
     if (dictionary == NULL)
     {
-        fprintf(stderr, "Erreur : Le dictionnaire fourni à addToDico est un pointeur nul\n");
-        exit(1);
+        ERROR(NULLPOINTER, "Erreur : Le dictionnaire fourni à addToDico est un pointeur nul\n");
     }
 
     mot_t *newLinkWord = (mot_t *)malloc(sizeof(mot_t));
     if (newLinkWord == NULL)
     {
-        fprintf(stderr, "Erreur : L'allocation a échoué \n");
-        exit(1);
+        ERROR(MALLOCFAIL, "Erreur : L'allocation de newLinkWord a échoué \n");
     }
     emplacement_t *location = (emplacement_t *)malloc(sizeof(emplacement_t));
     if (location == NULL)
     {
-        fprintf(stderr, "Erreur : L'allocation a échoué \n");
         free(newLinkWord);
-        exit(1);
+        ERROR(MALLOCFAIL, "Erreur : L'allocation de location a échoué \n");
     }
     else
     {
@@ -91,8 +85,7 @@ void addToDico(dico **dictionary, char *word, unsigned int *line, unsigned int *
         dico *newDictionary = (dico *)malloc(sizeof(dico));
         if (newDictionary == NULL)
         {
-            fprintf(stderr, "Erreur : L'allocation a échoué \n");
-            exit(1);
+            ERROR(MALLOCFAIL, "Erreur : L'allocation de newDictionary a échoué \n");
         }
         newDictionary->mot = newLinkWord;
         newDictionary->fg = newDictionary->fd = NULL;

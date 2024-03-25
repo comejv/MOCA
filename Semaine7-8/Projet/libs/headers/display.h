@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "structures.h"
+#include "macro.h"
 
 #define DICORES "resultats/dictionnaires.txt"
 #define TEXTE "exemples/hugo1.txt"

@@ -40,14 +40,13 @@ void displayDico(dico *dictionary)
     f = fopen(DICORES, "w+");
     if (f == NULL)
     {
-        fprintf(stderr, "Erreur d'ouverture du fichier %s\n", DICORES);
-        exit(1);
+        ERROR(FILEOPENFAIL, "Erreur d'ouverture du fichier %s\n", DICORES);
     }
     if (!feof(f))
         printf("Resultat existant dans le fichier resultat, on ecrase\n");
     if (dictionary == NULL)
     {
-        printf("displayDico : NULL\n");
+        ERROR(NULLPOINTER, "Le pointeur dictionary est NULL\n");
     }
     else
     {
