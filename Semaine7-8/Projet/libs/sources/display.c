@@ -34,7 +34,7 @@ void displayNodes(dico *d, FILE *f)
     }
 }
 
-void displayDico(dico *dictionary)
+void displayDico(dico *dictionary, char *name_file_in)
 {
     FILE *f = NULL;
     f = fopen(DICORES, "w+");
@@ -50,7 +50,7 @@ void displayDico(dico *dictionary)
     }
     else
     {
-        fprintf(f, "Contenu dictionnaire pour %s : \n", TEXTE);
+        fprintf(f, "Contenu dictionnaire pour %s : \n", name_file_in);
         dico *tempDico = dictionary;
         displayNodes(tempDico, f);
         fflush(f);

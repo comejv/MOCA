@@ -64,6 +64,7 @@ void deserializeDico(dico **dic, mot_data_t *elt)
         *dic = temp;
         return;
     }
+
     if (compareWord(&((*dic)->mot->data), elt) > 0)
     {
         deserializeDico(&(*dic)->fg, elt);
@@ -79,7 +80,13 @@ void serializeDico(dico *dictionary, mot_data_t **table)
     if (dictionary)
     {
         serializeDico(dictionary->fg, table);
-        table[abs(dictionary->mot->lehash)] = &(dictionary->mot->data);
+        uint64_t hash = abs(dictionary->mot->lehash);
+        if (table[hash] == 0) {
+          table[hash] = &(dictionary->mot->data);
+        } else {
+          DEBUG(HASH, "Le mot '%s' est entré en collision avec le mot '%s'\n", dictionary->mot->data.lemot, table[hash]->lemot);
+          freeEmplacement(dictionary->mot->data.tete_liste);
+        }
         serializeDico(dictionary->fd, table);
     }
 }

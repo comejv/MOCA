@@ -85,7 +85,7 @@ void addToDico(dico **dictionary, char *word, unsigned int *line, unsigned int *
         dico *newDictionary = (dico *)malloc(sizeof(dico));
         if (newDictionary == NULL)
         {
-            ERROR(MALLOCFAIL, "Erreur : L'allocation de newDictionary a échoué \n");
+            freeMot(newLinkWord);
         }
         newDictionary->mot = newLinkWord;
         newDictionary->fg = newDictionary->fd = NULL;

@@ -74,7 +74,7 @@ int main(int argc, char **argv)
         free(word);
     }
     printf("1-----Affichage du dictionnaire une fois rempli-----\n");
-    displayDico(dictionary);
+    displayDico(dictionary, nom);
     serializeDico(dictionary, serialized_dico);
     printf("\n2-----Affichage de la table de mots après sérialisation-----\n");
     for (i = 0; i < MaxSizeArray; i++)
