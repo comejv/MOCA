@@ -100,7 +100,7 @@ endif
 ### RULES ###
 #############
 
-.PHONY : ensureDirs showCov clean cleanall
+.PHONY : ensureDirs showCov clean cleanall unitest systest afltest
 
 # Default target
 all : lib ensureDirs message $(EXEC)
