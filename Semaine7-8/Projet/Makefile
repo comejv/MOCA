@@ -96,6 +96,11 @@ ifdef AFL
 	endif
 endif
 
+ifdef GPROF
+	CFLAGS += -pg
+	LDFLAGS += -pg
+endif
+
 #############
 ### RULES ###
 #############
@@ -155,6 +160,12 @@ afltest:
 	$(MAKE) cleanall
 	$(MAKE) $(AFLTEST)
 	AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1 AFL_SKIP_CPUFREQ=1 AFL_USE_ASAN=1 afl-fuzz -D -i ./exemples/afl/ -o $(AFLOUTDIR) $(EXEC) @@
+
+gprof:
+	$(MAKE) clean
+	$(MAKE) GPROF=1
+	./$(EXEC) exemples/longtext.txt > /dev/null
+	gprof $(EXEC)
 
 # Rule to generate automatic documentation (via Doxygen, based on the configuration file located in DOCDIR)
 doc:
