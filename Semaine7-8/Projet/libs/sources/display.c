@@ -34,24 +34,23 @@ void displayNodes(dico *d, FILE *f)
     }
 }
 
-void displayDico(dico *dictionary)
+void displayDico(dico *dictionary, char *name_file_in)
 {
     FILE *f = NULL;
     f = fopen(DICORES, "w+");
     if (f == NULL)
     {
-        fprintf(stderr, "Erreur d'ouverture du fichier %s\n", DICORES);
-        exit(1);
+        ERROR(FILEOPENFAIL, "Erreur d'ouverture du fichier %s\n", DICORES);
     }
     if (!feof(f))
         printf("Resultat existant dans le fichier resultat, on ecrase\n");
     if (dictionary == NULL)
     {
-        printf("displayDico : NULL\n");
+        ERROR(NULLPOINTER, "Le pointeur dictionary est NULL\n");
     }
     else
     {
-        fprintf(f, "Contenu dictionnaire pour %s : \n", TEXTE);
+        fprintf(f, "Contenu dictionnaire pour %s : \n", name_file_in);
         dico *tempDico = dictionary;
         displayNodes(tempDico, f);
         fflush(f);

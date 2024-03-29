@@ -6,10 +6,11 @@
  * \brief Outils de manipulation de structures de mots
  */
 
-#include "structures.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "structures.h"
+#include "macro.h"
 
 /**
  * \def SEP
@@ -17,6 +18,29 @@
  * texte
  */
 #define SEP " ',.-!?;:"
+
+/**
+ * \fn int is_ascii(char c)
+ * \brief Fonction booléenne de reconnaissance d'un caractère ASCII (a-z ou A-Z)
+ * \param c le caractère à reconnaître
+ * \return 1 si c est un caractère ASCII, 0 sinon
+ * 
+ * Cette fonction détermine si le caractère passé en argument est une lettre (minuscule ou majuscule) dans la table ASCII.
+*/
+int is_ascii(char c);
+
+/**
+ * \fn void skip_separators(FILE *f, char sep, unsigned int *startl, unsigned int *startc)
+ * \brief Fonction de parcours des caractères séparateurs dans un fichier texte
+ * \param f le fichier texte
+ * \param sep le caractère en cours de lecture
+ * \param startl l'indice de ligne de départ
+ * \param startc l'indice de colonne de départ
+ * \note Pas de valeur de retour
+ * 
+ * Cette fonction permet de sauter les séparateurs d'un fichier texte, à partir d'une certaine position.
+*/
+void skip_separators(FILE *f, char sep, unsigned int *startl, unsigned int *startc);
 
 /**
  * \fn char *next_word(FILE *f, unsigned int *nblin, unsigned int *nbcol)

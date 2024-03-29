@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "structures.h"
+#include "macro.h"
 
 #define DICORES "resultats/dictionnaires.txt"
 #define TEXTE "exemples/hugo1.txt"
@@ -40,12 +41,13 @@ void displayNodes(dico *d, FILE* f);
  * \fn void displayDico(dico* dictionary)
  * \brief Fonction de gestion d'un fichier pour y écrire le contenu d'une structure de dictionnaire
  * \param dictionary la structure de dictionnaire (ABR) à afficher
+ * \param name_file_in le nom du fichier utilisé pour la création du dictionnaire
  * \note Pas de valeur de retour
  * 
  * Cette fonction gère l'ouverture d'un fichier et les potentielles erreurs associées dans le but d'y écrire le contenu d'une structure
  * de dictionnaire, avant d'appeler la fonction displayNodes.
 */
-void displayDico(dico* dictionary);
+void displayDico(dico* dictionary, char *name_file_in);
 
 
 
