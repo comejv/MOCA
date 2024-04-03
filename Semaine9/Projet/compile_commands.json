@@ -1,0 +1,118 @@
+[
+ {
+  "directory": "/home/comev/MOCA/team2/Semaine7-8/Projet/libs",
+  "arguments": [
+   "gcc",
+   "-Wall",
+   "-Werror",
+   "-fwrapv",
+   "-fPIC",
+   "-fstack-protector-all",
+   "-I",
+   "headers",
+   "-I",
+   "../headers",
+   "-c",
+   "-o",
+   "objects/display.o",
+   "sources/display.c"
+  ],
+  "file": "sources/display.c"
+ },
+ {
+  "directory": "/home/comev/MOCA/team2/Semaine7-8/Projet/libs",
+  "arguments": [
+   "gcc",
+   "-Wall",
+   "-Werror",
+   "-fwrapv",
+   "-fPIC",
+   "-fstack-protector-all",
+   "-I",
+   "headers",
+   "-I",
+   "../headers",
+   "-c",
+   "-o",
+   "objects/serialization.o",
+   "sources/serialization.c"
+  ],
+  "file": "sources/serialization.c"
+ },
+ {
+  "directory": "/home/comev/MOCA/team2/Semaine7-8/Projet",
+  "arguments": [
+   "gcc",
+   "-Wall",
+   "-Werror",
+   "-fwrapv",
+   "-fstack-protector-all",
+   "-I",
+   "headers",
+   "-I",
+   "libs/headers",
+   "-c",
+   "sources/dico.c",
+   "-o",
+   "objects/dico.o"
+  ],
+  "file": "sources/dico.c"
+ },
+ {
+  "directory": "/home/comev/MOCA/team2/Semaine7-8/Projet",
+  "arguments": [
+   "gcc",
+   "-Wall",
+   "-Werror",
+   "-fwrapv",
+   "-fstack-protector-all",
+   "-I",
+   "headers",
+   "-I",
+   "libs/headers",
+   "-c",
+   "sources/dico_tools.c",
+   "-o",
+   "objects/dico_tools.o"
+  ],
+  "file": "sources/dico_tools.c"
+ },
+ {
+  "directory": "/home/comev/MOCA/team2/Semaine7-8/Projet",
+  "arguments": [
+   "gcc",
+   "-Wall",
+   "-Werror",
+   "-fwrapv",
+   "-fstack-protector-all",
+   "-I",
+   "headers",
+   "-I",
+   "libs/headers",
+   "-c",
+   "sources/free.c",
+   "-o",
+   "objects/free.o"
+  ],
+  "file": "sources/free.c"
+ },
+ {
+  "directory": "/home/comev/MOCA/team2/Semaine7-8/Projet",
+  "arguments": [
+   "gcc",
+   "-Wall",
+   "-Werror",
+   "-fwrapv",
+   "-fstack-protector-all",
+   "-I",
+   "headers",
+   "-I",
+   "libs/headers",
+   "-c",
+   "sources/word_tools.c",
+   "-o",
+   "objects/word_tools.o"
+  ],
+  "file": "sources/word_tools.c"
+ }
+]
