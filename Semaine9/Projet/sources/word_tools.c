@@ -43,6 +43,7 @@ char *next_word(FILE *f, unsigned int *nblin, unsigned int *nbcol)
         } else {
             s[i++] = lu;
         }
+        startc++;
     }
     startc++;
     sep = lu;
