@@ -201,8 +201,9 @@ cleanall :
 	@echo "----- Nettoyage du repertoire auto_tests -----"
 	$(MAKE) -C $(TESTDIR) clean
 	-rm -r $(AFLOUTDIR)
-	@echo "----- Nettoyage des fichiers image du profiler -----"
+	@echo "----- Nettoyage des fichiers images du profiler -----"
 	-rm $(PROFILERDIR)/resultatgprof.png
+	-rm massif.*
 
 # Rule to clean the workspace
 # The LIBCLEAN option can be specified in command line to also clean the libraries (libs) subdirectory (through the sub Makefile)
