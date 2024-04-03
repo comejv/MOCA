@@ -69,18 +69,17 @@ int compareWord(mot_data_t *w1, mot_data_t *w2)
     {
         char *word1 = w1->lemot;
         char *word2 = w2->lemot;
-        int minSize = (strlen(word1) < strlen(word2)) ? strlen(word1) : strlen(word2);
+        size_t taille_word1 = strlen(word1);
+        size_t taille_word2 = strlen(word2);
+        int minSize = (taille_word1 < taille_word2) ? taille_word1 : taille_word2;
         int i = 0;
         int pos = 0;
         while (i < minSize && pos == 0)
         {
-            pos = (word1[i] < word2[i]) ? -1 : (word1[i] > word2[i]) ? 1
-                                                                     : 0;
+            pos = (word1[i] < word2[i]) ? -1 : (word1[i] > word2[i]) ? 1 : 0;
             i++;
         }
-        return (pos == 0 && strlen(word1) < strlen(word2))   ? -1
-               : (pos == 0 && strlen(word1) > strlen(word2)) ? 1
-                                                             : pos;
+        return (pos == 0 && taille_word1 < taille_word2) ? -1 : (pos == 0 && taille_word1 > taille_word2) ? 1 : pos;
     }
 }
 
@@ -93,11 +92,6 @@ void incWord(emplacement_t *location, unsigned int line, unsigned int colonne)
     emplacement_t *newLocation = (emplacement_t *) malloc(sizeof(emplacement_t));
     if (newLocation == NULL) {
         ERROR(MALLOCFAIL, "Erreur : l'allocation de newLocation a échoué\n");
-    }
-
-    while (location->next != NULL)
-    {
-        location = location->next;
     }
 
     newLocation->next = NULL;

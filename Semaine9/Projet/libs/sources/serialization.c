@@ -80,7 +80,7 @@ void serializeDico(dico *dictionary, mot_data_t **table)
     if (dictionary)
     {
         serializeDico(dictionary->fg, table);
-        uint64_t hash = abs(dictionary->mot->lehash);
+        uint64_t hash = dictionary->mot->lehash;
         if (table[hash] == 0) {
           table[hash] = &(dictionary->mot->data);
         } else {

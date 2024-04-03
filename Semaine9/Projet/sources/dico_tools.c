@@ -3,6 +3,7 @@
 
 void insertDico(dico **dictionary, mot_t *linkWord)
 {
+    int val_compare;
     if (dictionary == NULL)
     {
         ERROR(NULLPOINTER, "Erreur : Le dictionnaire fourni à insertDico est un pointeur nul\n");
@@ -16,6 +17,8 @@ void insertDico(dico **dictionary, mot_t *linkWord)
     dico *newDictionary = *dictionary;
     DEBUG(DICO, "mot à ajouter : %s\n", linkWord->data.lemot);
 
+    
+
     if (newDictionary == NULL)
     {
         DEBUG(DICO, "noeud courant vide\n");
@@ -28,28 +31,28 @@ void insertDico(dico **dictionary, mot_t *linkWord)
         newDictionary->mot = linkWord;
         newDictionary->fg = newDictionary->fd = NULL;
         *dictionary = newDictionary;
-    }
+    } else {
+        val_compare = compareWord(&(newDictionary->mot->data), &(linkWord->data));
 
-    else if (compareWord(&(newDictionary->mot->data), &(linkWord->data)) > 0)
-    {
-        DEBUG(DICO, "mot du noeud courant : %s\n", newDictionary->mot->data.lemot);
-        DEBUG(DICO, "Insertion en sous arbre gauche\n");
-        insertDico(&(newDictionary->fg), linkWord);
-    }
-    else if (compareWord(&(newDictionary->mot->data), &(linkWord->data)) < 0)
-    {
-        DEBUG(DICO, "mot du noeud courant : %s\n", newDictionary->mot->data.lemot);
-        DEBUG(DICO, "Insertion en sous arbre droit\n");
-        insertDico(&(newDictionary->fd), linkWord);
-    }
-    else
-    {
-        DEBUG(DICO, "noeud courant identique\n");
-        DEBUG(DICO, "Insertion dans le noeud courant\n");
-        incWord(newDictionary->mot->data.queue_liste, linkWord->data.tete_liste->line,
-                linkWord->data.tete_liste->colonne);
-        freeMot(linkWord);
-        newDictionary->mot->data.queue_liste = newDictionary->mot->data.queue_liste->next;
+        if (val_compare > 0)
+        {
+            DEBUG(DICO, "mot du noeud courant : %s\n", newDictionary->mot->data.lemot);
+            DEBUG(DICO, "Insertion en sous arbre gauche\n");
+            insertDico(&(newDictionary->fg), linkWord);
+        } else if (val_compare < 0)
+        {
+            DEBUG(DICO, "mot du noeud courant : %s\n", newDictionary->mot->data.lemot);
+            DEBUG(DICO, "Insertion en sous arbre droit\n");
+            insertDico(&(newDictionary->fd), linkWord);
+        }
+        else
+        {
+            DEBUG(DICO, "noeud courant identique\n");
+            DEBUG(DICO, "Insertion dans le noeud courant\n");
+            incWord(newDictionary->mot->data.queue_liste, linkWord->data.tete_liste->line, linkWord->data.tete_liste->colonne);
+            freeMot(linkWord);
+            newDictionary->mot->data.queue_liste = newDictionary->mot->data.queue_liste->next;
+        }
     }
 }
 
