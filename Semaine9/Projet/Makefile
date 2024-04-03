@@ -33,6 +33,7 @@ DOCDIR=documentation
 RESDIR=resultats
 TESTDIR=auto_tests
 AFLOUTDIR=$(TESTDIR)/afl_out
+PROFILERDIR=profiler
 
 # Files names : sources, headers, objects, objects that correspond to an executable file name, and executable files
 SRCS=$(wildcard $(SRCDIR)/*.c)
@@ -165,6 +166,9 @@ gprof:
 	$(MAKE) clean
 	$(MAKE) GPROF=1 STATIC=1
 	$(EXEC) exemples/longtext.txt > /dev/null
+ifdef GRAPH
+		gprof $(EXEC) | $(PROFILERDIR)/gprof2dot.py | dot -Tpng -o $(PROFILERDIR)/resultatgprof.png
+endif
 	gprof $(EXEC)
 
 # Rule to generate automatic documentation (via Doxygen, based on the configuration file located in DOCDIR)
@@ -197,6 +201,8 @@ cleanall :
 	@echo "----- Nettoyage du repertoire auto_tests -----"
 	$(MAKE) -C $(TESTDIR) clean
 	-rm -r $(AFLOUTDIR)
+	@echo "----- Nettoyage des fichiers image du profiler -----"
+	-rm $(PROFILERDIR)/resultatgprof.png
 
 # Rule to clean the workspace
 # The LIBCLEAN option can be specified in command line to also clean the libraries (libs) subdirectory (through the sub Makefile)
