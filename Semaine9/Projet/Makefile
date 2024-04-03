@@ -163,7 +163,7 @@ afltest:
 	AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1 AFL_SKIP_CPUFREQ=1 AFL_USE_ASAN=1 afl-fuzz -D -i ./exemples/afl/ -o $(AFLOUTDIR) $(EXEC) @@
 
 gprof:
-	$(MAKE) clean
+	$(MAKE) cleanall
 	$(MAKE) GPROF=1 STATIC=1
 	$(EXEC) exemples/longtext.txt > /dev/null
 ifdef GRAPH
