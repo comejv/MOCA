@@ -76,15 +76,15 @@ void test_next_word(CuTest *tc)
 
     CuAssertStrEquals(tc, "ne", next_word(f, &l, &c));
     CuAssertIntEquals(tc, 2, l);
-    CuAssertIntEquals(tc, 3, c);
+    CuAssertIntEquals(tc, 4, c);
 
     CuAssertStrEquals(tc, "laisserai", next_word(f, &l, &c));
     CuAssertIntEquals(tc, 2, l);
-    CuAssertIntEquals(tc, 5, c);
+    CuAssertIntEquals(tc, 7, c);
 
     CuAssertStrEquals(tc, "pas", next_word(f, &l, &c));
     CuAssertIntEquals(tc, 2, l);
-    CuAssertIntEquals(tc, 14, c);
+    CuAssertIntEquals(tc, 17, c);
 
     for (int i = 0; i < 4; i++)
     {
@@ -102,7 +102,7 @@ void test_next_word(CuTest *tc)
 
     CuAssertStrEquals(tc, "parmi", next_word(f, &l, &c));
     CuAssertIntEquals(tc, 6, l);
-    CuAssertIntEquals(tc, 14, c);
+    CuAssertIntEquals(tc, 17, c);
 }
 
 void test_incWord(CuTest *tc)
@@ -117,12 +117,12 @@ void test_incWord(CuTest *tc)
     CuAssertIntEquals(tc, 0, Location->next->line);
     CuAssertIntEquals(tc, 0, Location->next->colonne);
 
-    incWord(Location, 1, 1);
+    incWord(Location->next, 1, 1);
     CuAssertPtrNotNull(tc, Location->next);
     CuAssertIntEquals(tc, 1, Location->next->next->line);
     CuAssertIntEquals(tc, 1, Location->next->next->colonne);
 
-    incWord(Location, 6, 6);
+    incWord(Location->next->next, 6, 6);
     CuAssertPtrNotNull(tc, Location->next->next);
     CuAssertIntEquals(tc, 6, Location->next->next->next->line);
     CuAssertIntEquals(tc, 6, Location->next->next->next->colonne);
