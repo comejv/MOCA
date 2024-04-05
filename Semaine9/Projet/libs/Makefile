@@ -10,6 +10,10 @@ CFLAGS := -Wall -Werror -fwrapv
 ifndef STATIC
 CFLAGS += -fPIC
 LDFLAGS := -lm
+
+# always stack protector for shared library
+CFLAGS+=-fstack-protector-all
+LDFLAGS+=-fstack-protector-all
 endif
 # -I option used here to tell the compiler in which folders to search for the headers (main headers + libs headers)
 CPPFLAGS := -I headers -I ../headers 
@@ -33,7 +37,7 @@ LIB_EXT := .a
 AR := ar rs
 else
 LIB_EXT := .so
-AR := $(CC) -shared -o
+AR := $(CC) -shared -o 
 endif
 
 # Debug mode : -g to be able to run gdb, and -DDEBUG to define the DEBUG macro in source files
@@ -59,10 +63,6 @@ ifdef GCOV
 	LDFLAGS+=$(OPTGCOV)
 endif
 
-# always stack protector
-CFLAGS+=-fstack-protector-all
-LDFLAGS+=-fstack-protector-all
-
 ifdef ASAN
 	CFLAGS+=-fsanitize=address -g
 	LDFLAGS+=-fsanitize=address -static-libasan
@@ -82,7 +82,6 @@ endif
 
 ifdef GPROF
 	CFLAGS += -pg
-	LDFLAGS += -pg
 endif
 
 # Library names
@@ -100,11 +99,11 @@ all: ensureDirs $(DISPLAY_LIB_NAME) $(SERIALIZATION_LIB_NAME)
 
 # Rule to make the display library
 $(DISPLAY_LIB_NAME): $(OBJS_DISPLAY)
-	$(AR) $@ $^
+	$(AR) $@ $^ $(LDFLAGS)
 
 # Rule to make the serialization library
 $(SERIALIZATION_LIB_NAME): $(OBJS_SERIALIZATION)
-	$(AR) $@ $^
+	$(AR) $@ $^ $(LDFLAGS)
 
 # Rule to create all needed directories (-p to disable errors if they already exist)
 ensureDirs:
