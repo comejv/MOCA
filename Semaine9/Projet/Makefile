@@ -194,6 +194,7 @@ cleanall :
 	-rm -r $(OBJDIR)/*.o $(EXEC) $(DOCDIR)/*/ 2> /dev/null
 	-rm $(OBJDIR)/*.gc* 2> /dev/null
 	-rm gmon.out 2> /dev/null
+	-rm *.gcov 2> /dev/null
 	@echo
 	@echo "----- Nettoyage des librairies -----"
 	$(MAKE) -C $(LIBDIR) clean

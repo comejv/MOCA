@@ -17,13 +17,11 @@ void insertDico(dico **dictionary, mot_t *linkWord)
     dico *newDictionary = *dictionary;
     DEBUG(DICO, "mot à ajouter : %s\n", linkWord->data.lemot);
 
-    
-
     if (newDictionary == NULL)
     {
         DEBUG(DICO, "noeud courant vide\n");
         DEBUG(DICO, "Insertion dans le noeud courant\n");
-        newDictionary = (dico *)malloc(sizeof(dico));
+        newDictionary = (dico *) malloc(sizeof(dico));
         if (newDictionary == NULL)
         {
             ERROR(MALLOCFAIL, "Erreur : L'allocation de newDictionary a échoué\n");
@@ -31,7 +29,9 @@ void insertDico(dico **dictionary, mot_t *linkWord)
         newDictionary->mot = linkWord;
         newDictionary->fg = newDictionary->fd = NULL;
         *dictionary = newDictionary;
-    } else {
+    }
+    else
+    {
         val_compare = compareWord(&(newDictionary->mot->data), &(linkWord->data));
 
         if (val_compare > 0)
@@ -39,7 +39,8 @@ void insertDico(dico **dictionary, mot_t *linkWord)
             DEBUG(DICO, "mot du noeud courant : %s\n", newDictionary->mot->data.lemot);
             DEBUG(DICO, "Insertion en sous arbre gauche\n");
             insertDico(&(newDictionary->fg), linkWord);
-        } else if (val_compare < 0)
+        }
+        else if (val_compare < 0)
         {
             DEBUG(DICO, "mot du noeud courant : %s\n", newDictionary->mot->data.lemot);
             DEBUG(DICO, "Insertion en sous arbre droit\n");
@@ -63,12 +64,12 @@ void addToDico(dico **dictionary, char *word, unsigned int *line, unsigned int *
         ERROR(NULLPOINTER, "Erreur : Le dictionnaire fourni à addToDico est un pointeur nul\n");
     }
 
-    mot_t *newLinkWord = (mot_t *)malloc(sizeof(mot_t));
+    mot_t *newLinkWord = (mot_t *) malloc(sizeof(mot_t));
     if (newLinkWord == NULL)
     {
         ERROR(MALLOCFAIL, "Erreur : L'allocation de newLinkWord a échoué\n");
     }
-    emplacement_t *location = (emplacement_t *)malloc(sizeof(emplacement_t));
+    emplacement_t *location = (emplacement_t *) malloc(sizeof(emplacement_t));
     if (location == NULL)
     {
         free(newLinkWord);
@@ -86,7 +87,7 @@ void addToDico(dico **dictionary, char *word, unsigned int *line, unsigned int *
     newLinkWord->data.queue_liste = location;
     if (*dictionary == NULL)
     {
-        dico *newDictionary = (dico *)malloc(sizeof(dico));
+        dico *newDictionary = (dico *) malloc(sizeof(dico));
         if (newDictionary == NULL)
         {
             freeMot(newLinkWord);

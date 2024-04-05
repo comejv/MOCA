@@ -5,18 +5,22 @@ char *separators = SEP;
 unsigned int current_line = 1;
 unsigned int current_col = 1;
 
-int is_ascii(char c) {
-    return ((c>='A' && c<='Z') || (c>='a' && c<='z'));
+int is_ascii(char c)
+{
+    return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
 }
 
-void skip_separators(FILE *f, char sep, unsigned int *startl, unsigned int *startc) {
+void skip_separators(FILE *f, char sep, unsigned int *startl, unsigned int *startc)
+{
     while (strchr(separators, sep) != NULL || sep == '\n' || !is_ascii(sep))
     {
         if (sep == '\n')
         {
             (*startl)++;
             *startc = 1;
-        } else if (sep == EOF) {
+        }
+        else if (sep == EOF)
+        {
             break;
         }
         sep = fgetc(f);
@@ -26,7 +30,7 @@ void skip_separators(FILE *f, char sep, unsigned int *startl, unsigned int *star
 
 char *next_word(FILE *f, unsigned int *nblin, unsigned int *nbcol)
 {
-    char s[maxSizeWord+1];
+    char s[maxSizeWord + 1];
     char *res;
     unsigned int i = 0, startl = current_line, startc = current_col;
     char sep, lu;
@@ -38,9 +42,12 @@ char *next_word(FILE *f, unsigned int *nblin, unsigned int *nbcol)
         *nbcol = startc;
     while ((strchr(separators, lu = fgetc(f)) == NULL) && lu != '\n' && is_ascii(lu))
     {
-        if (i >= maxSizeWord) {
+        if (i >= maxSizeWord)
+        {
             ERROR(WORDTOOLONG, "Erreur : un mot du texte est trop long\n");
-        } else {
+        }
+        else
+        {
             s[i++] = lu;
         }
         startc++;
@@ -77,21 +84,25 @@ int compareWord(mot_data_t *w1, mot_data_t *w2)
         int pos = 0;
         while (i < minSize && pos == 0)
         {
-            pos = (word1[i] < word2[i]) ? -1 : (word1[i] > word2[i]) ? 1 : 0;
+            pos = (word1[i] < word2[i]) ? -1 : (word1[i] > word2[i]) ? 1
+                                                                     : 0;
             i++;
         }
-        return (pos == 0 && taille_word1 < taille_word2) ? -1 : (pos == 0 && taille_word1 > taille_word2) ? 1 : pos;
+        return (pos == 0 && taille_word1 < taille_word2) ? -1 : (pos == 0 && taille_word1 > taille_word2) ? 1
+                                                                                                          : pos;
     }
 }
 
 void incWord(emplacement_t *location, unsigned int line, unsigned int colonne)
 {
-    if (location == NULL) {
+    if (location == NULL)
+    {
         ERROR(NULLPOINTER, "Erreur : le pointeur location est nul\n");
     }
-    
+
     emplacement_t *newLocation = (emplacement_t *) malloc(sizeof(emplacement_t));
-    if (newLocation == NULL) {
+    if (newLocation == NULL)
+    {
         ERROR(MALLOCFAIL, "Erreur : l'allocation de newLocation a échoué\n");
     }
 

@@ -1,10 +1,10 @@
 #include "dico_tools.h"
 #include "display.h"
 #include "free.h"
+#include "macro.h"
 #include "serialization.h"
 #include "structures.h"
 #include "word_tools.h"
-#include "macro.h"
 #include <stdlib.h>
 
 int main(int argc, char **argv)
@@ -33,19 +33,19 @@ int main(int argc, char **argv)
     {
         ERROR(FILEOPENFAIL, "Erreur d'ouverture du fichier %s\n", nom);
     }
-    unsigned int *line = (unsigned int *)malloc(sizeof(int));
+    unsigned int *line = (unsigned int *) malloc(sizeof(int));
     if (line == NULL)
     {
         ERROR(MALLOCFAIL, "Erreur : L'allocation de line a échoué \n");
     }
-    unsigned int *colonne = (unsigned int *)malloc(sizeof(int));
+    unsigned int *colonne = (unsigned int *) malloc(sizeof(int));
     if (colonne == NULL)
     {
         free(line);
         ERROR(MALLOCFAIL, "Erreur : L'allocation de colonne a échoué \n");
     }
     char *word = NULL;
-    dico *dictionary = (dico *)malloc(sizeof(dico));
+    dico *dictionary = (dico *) malloc(sizeof(dico));
     if (dictionary == NULL)
     {
         free(line);
@@ -61,7 +61,7 @@ int main(int argc, char **argv)
 
     dico *copiedico = NULL;
 
-    mot_data_t **serialized_dico = (mot_data_t **)calloc(MaxSizeArray, sizeof(mot_data_t *));
+    mot_data_t **serialized_dico = (mot_data_t **) calloc(MaxSizeArray, sizeof(mot_data_t *));
     if (serialized_dico == NULL)
     {
         ERROR(MALLOCFAIL, "Erreur : L'allocation de serialized_dico a échoué \n");
@@ -110,15 +110,15 @@ int main(int argc, char **argv)
     // construire copiedico), mais les structures de mots que ces dictionnaires contiennent sont associées aux mêmes pointeurs (car dans deserializeDico,
     // on relie les noeuds de copiedico aux pointeurs de mot_data_t contenus dans la table serialized_dico) !
 
-    // En fin de programme, on a donc l'ensemble des structures de mot_data_t (utilisées à la fois par dictionary et par copiedico) 
-    // contenu dans serialized_dico, tandis que les pointeurs associés aux noeuds de dictionary et copiedico sont différents. 
+    // En fin de programme, on a donc l'ensemble des structures de mot_data_t (utilisées à la fois par dictionary et par copiedico)
+    // contenu dans serialized_dico, tandis que les pointeurs associés aux noeuds de dictionary et copiedico sont différents.
 
     // Il faut donc libérer d'abord les structures de mot_data_t de serialized_dico afin de libérer les chaînes d'emplacements contenues à la fois
     // dans dictionary et copiedico, puis libérer les structures de mot_t et les noeuds des deux dictionnaires.
 
     // Libération des structures de mot_data_t communes aux deux dictionnaires (et leurs chaînes d'emplacements allouées)
     freeMotData(serialized_dico);
- 
+
     // Les emplacements de mots ont été libérés dans les deux dictionnaires à la fois, il ne reste qu'à libérer les structures de mot_t et les noeuds
     // séparément
     freeDico(dictionary);
