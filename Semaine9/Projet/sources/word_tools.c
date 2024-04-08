@@ -12,7 +12,7 @@ int is_ascii(char c)
 
 void skip_separators(FILE *f, char sep, unsigned int *startl, unsigned int *startc)
 {
-    while (strchr(separators, sep) != NULL || sep == '\n' || !is_ascii(sep))
+    while (strchr(separators, sep) != NULL || sep == '\n')
     {
         if (sep == '\n')
         {
@@ -40,14 +40,13 @@ char *next_word(FILE *f, unsigned int *nblin, unsigned int *nbcol)
         *nblin = startl;
     if (nbcol != NULL)
         *nbcol = startc;
-    while ((strchr(separators, lu = fgetc(f)) == NULL) && lu != '\n' && is_ascii(lu))
+    while ((strchr(separators, lu = fgetc(f)) == NULL) && lu != '\n')
     {
-        if (i >= maxSizeWord)
-        {
+        if (i >= maxSizeWord) {
             ERROR(WORDTOOLONG, "Erreur : un mot du texte est trop long\n");
-        }
-        else
-        {
+        } else if (!is_ascii(lu)) {
+            ERROR(NOTASCII, "Erreur : caractère non autorisé dans le texte\n");
+        } else {
             s[i++] = lu;
         }
         startc++;

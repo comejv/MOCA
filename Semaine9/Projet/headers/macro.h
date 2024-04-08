@@ -91,6 +91,9 @@
     case WORDTOOLONG:                                                          \
       fprintf(stderr, "WORDTOOLONG\n");                                        \
       break;                                                                   \
+    case NOTASCII:                                                             \
+      fprintf(stderr, "NOTASCII\n");                                             \
+      break;                                                                   \
     default:                                                                   \
       fprintf(stderr, "Unknown error\n");                                      \
   }                                                                            \
@@ -107,5 +110,6 @@
 #define NULLPOINTER 2
 #define MALLOCFAIL 3
 #define WORDTOOLONG 4
+#define NOTASCII 5
 
 #endif // __MACRO_H
