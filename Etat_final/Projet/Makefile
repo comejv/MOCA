@@ -87,10 +87,10 @@ ifdef ASAN
 endif
 
 ifdef AFL
-	ifeq ($(shell which $(AFLDIR)/afl-gcc-fast 2>/dev/null), )  # Check if afl-gcc-fast exists
-		CC=$(AFLDIR)/afl-gcc
-	else
+	ifneq ("$(wildcard $(AFLDIR)/afl-gcc-fast)","")
 		CC=$(AFLDIR)/afl-gcc-fast
+	else
+		CC=$(AFLDIR)/afl-gcc
 	endif
 endif
 
