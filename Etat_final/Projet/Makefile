@@ -34,7 +34,7 @@ RESDIR=resultats
 TESTDIR=auto_tests
 AFLOUTDIR=$(TESTDIR)/afl_out
 AFLDIR=methode/fuzzer/AFLplusplus
-PROFILERDIR=profiler
+PROFILERDIR=methode/profiler
 
 # Files names : sources, headers, objects, objects that correspond to an executable file name, and executable files
 SRCS=$(wildcard $(SRCDIR)/*.c)
