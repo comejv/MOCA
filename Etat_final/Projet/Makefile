@@ -158,7 +158,7 @@ afltest:
 	$(MAKE) cleanall
 	$(MAKE) -C $(AFLDIR)
 	$(MAKE) $(AFLTEST)
-	AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1 AFL_SKIP_CPUFREQ=1 AFL_USE_ASAN=1 $(AFLDIR)/afl-fuzz -i ./exemples/afl/ -o $(AFLOUTDIR) $(EXEC) @@
+	AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1 AFL_SKIP_CPUFREQ=1 AFL_USE_ASAN=1 $(AFLDIR)/afl-fuzz -D -i ./exemples/afl/ -o $(AFLOUTDIR) $(EXEC) @@
 
 gprof:
 	$(MAKE) cleanall
