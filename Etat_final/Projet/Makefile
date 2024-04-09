@@ -99,6 +99,11 @@ ifdef GPROF
 	LDFLAGS += -pg
 endif
 
+ifdef UDB
+	CFLAGS+=-fsanitize=undefined
+	LDFLAGS+=-fsanitize=undefined
+endif
+
 #############
 ### RULES ###
 #############
