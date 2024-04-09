@@ -83,6 +83,11 @@ ifdef GPROF
 	CFLAGS += -pg
 endif
 
+ifdef UDB
+	CFLAGS+=-fsanitize=undefined
+	LDFLAGS+=-fsanitize=undefined
+endif
+
 # Library names
 DISPLAY_LIB_NAME := $(LIBDIR)/libdisplay$(LIB_EXT)
 SERIALIZATION_LIB_NAME := $(LIBDIR)/libserialization$(LIB_EXT)

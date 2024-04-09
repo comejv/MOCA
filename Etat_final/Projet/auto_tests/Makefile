@@ -40,6 +40,11 @@ ifdef ASAN
 	LDFLAGS+=-fsanitize=address -static-libasan
 endif
 
+ifdef UDB
+	CFLAGS+=-fsanitize=undefined
+	LDFLAGS+=-fsanitize=undefined
+endif
+
 #############
 ### RULES ###
 #############
