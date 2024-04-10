@@ -1,0 +1,66 @@
+[
+    {
+        "directory": "/home/comev/Uni/MOCA/team2/Semaine5-6/Projet/auto_tests/",
+        "arguments": [
+            "gcc",
+            "-Wall",
+            "-Werror",
+            "-I",
+            "headers",
+            "-c",
+            "sources/Cutest.c",
+            "-o",
+            "objects/Cutest.o"
+        ],
+        "file": "sources/Cutest.c"
+    },
+    {
+        "directory": "/home/comev/Uni/MOCA/team2/Semaine5-6/Projet/auto_tests/",
+        "arguments": [
+            "gcc",
+            "-Wall",
+            "-Werror",
+            "-I",
+            "headers",
+            "-c",
+            "sources/testUDico.c",
+            "-o",
+            "objects/testUDico.o"
+        ],
+        "file": "sources/testUDico.c"
+    },
+    {
+        "directory": "/home/comev/Uni/MOCA/team2/Semaine5-6/Projet/auto_tests/",
+        "arguments": [
+            "gcc",
+            "-Wall",
+            "-Werror",
+            "-I",
+            "headers",
+            "-I",
+            "../headers",
+            "-c",
+            "sources/TestWords.c",
+            "-o",
+            "objects/TestWords.o"
+        ],
+        "file": "sources/TestWords.c"
+    },
+    {
+        "directory": "/home/comev/Uni/MOCA/team2/Semaine5-6/Projet/auto_tests/",
+        "arguments": [
+            "gcc",
+            "-Wall",
+            "-Werror",
+            "-I",
+            "headers",
+            "-I",
+            "../headers",
+            "-c",
+            "sources/TestSerialization.c",
+            "-o",
+            "objects/TestSerialization.o"
+        ],
+        "file": "sources/TestSerialization.c"
+    }
+]
