@@ -172,7 +172,7 @@ gprof:
 	$(MAKE) GPROF=1 STATIC=1
 	$(EXEC) exemples/longtext.txt > /dev/null
 ifdef GRAPH
-		gprof $(EXEC) | $(PROFILERDIR)/gprof2dot.py | dot -Tpng -o $(PROFILERDIR)/resultatgprof.png
+	gprof $(EXEC) | $(PROFILERDIR)/gprof2dot.py | dot -Tpng -o $(PROFILERDIR)/resultatgprof.png
 endif
 	gprof $(EXEC)
 
@@ -194,35 +194,21 @@ ensureDirs:
 showCov:
 	@gcov -b -o $(OBJDIR) -c $(SRCS)
 
-# Rule to clean the workspace + libs + auto_test + methode/fuzzer/AFLplusplus
+# Rule to clean the workspace + libs + auto_test + methode/fuzzer/AFLplusplus and profiler
 cleanall :
-	@echo "----- Nettoyage des objets, des exécutables et de la documentation -----"
-	-rm -r $(OBJDIR)/*.o $(EXEC) $(DOCDIR)/*/ 2> /dev/null
-	-rm $(OBJDIR)/*.gc* 2> /dev/null
-	-rm gmon.out 2> /dev/null
-	-rm *.gcov 2> /dev/null
-	@echo
-	@echo "----- Nettoyage des librairies -----"
-	$(MAKE) -C $(LIBDIR) clean
-	@echo
-	@echo "----- Nettoyage du repertoire auto_tests -----"
-	$(MAKE) -C $(TESTDIR) clean
-	-rm -r $(AFLOUTDIR)
-	@echo "----- Nettoyage des fichiers images du profiler -----"
-	-rm $(PROFILERDIR)/resultatgprof.png
-	-rm massif.*
-	@echo "----- Nettoyage des fichiers AFL -----"
-	$(MAKE) -C $(AFLDIR) clean
-	
+	$(MAKE) clean LIBCLEAN=1 TESTCLEAN=1 PROFCLEAN=1 AFLCLEAN=1
 
 # Rule to clean the workspace
 # The LIBCLEAN option can be specified in command line to also clean the libraries (libs) subdirectory (through the sub Makefile)
 # The TESTCLEAN option can be specified in command line to also clean the auto tests (auto_tests) subdirectory (through the sub Makefile)
 # The AFLCLEAN option can be specified in command line to also clean the AFL++ (methode/fuzzer/AFLplusplus) subdirectory (through the sub Makefile)
+# The PROFCLEAN flag can be set to remove profiler generated files.
 clean :
 	@echo "----- Nettoyage des objets, des exécutables et de la documentation -----"
 	-rm -r $(OBJDIR)/*.o $(EXEC) $(DOCDIR)/*/ 2> /dev/null
 	-rm $(OBJDIR)/*.gc* 2> /dev/null
+	-rm gmon.out 2> /dev/null
+	-rm *.gcov 2> /dev/null
 ifdef LIBCLEAN
 	@echo
 	@echo "----- Nettoyage des librairies -----"
@@ -232,9 +218,14 @@ ifdef TESTCLEAN
 	@echo
 	@echo "----- Nettoyage du repertoire auto_tests -----"
 	$(MAKE) -C $(TESTDIR) clean
+	-rm -r $(AFLOUTDIR)
+endif
+ifdef PROFCLEAN
+	@echo "----- Nettoyage des fichiers images du profiler -----"
+	-rm $(PROFILERDIR)/resultatgprof.png
+	-rm massif.*
 endif
 ifdef AFLCLEAN
-	@echo
-	@echo "----- Nettoyage du repertoire methode/fuzzer/AFLplusplus -----"
+	@echo "----- Nettoyage des fichiers AFL -----"
 	$(MAKE) -C $(AFLDIR) clean
 endif
