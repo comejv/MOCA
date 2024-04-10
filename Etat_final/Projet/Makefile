@@ -111,12 +111,7 @@ endif
 .PHONY : ensureDirs showCov clean cleanall unitest systest afltest gprof
 
 # Default target
-all : lib ensureDirs message $(EXEC)
-
-# Rule to organize the output
-message : 
-	@echo 
-	@echo "----- Compilation et génération du programme principal -----"
+all : lib ensureDirs $(EXEC)
 
 # Rule to make the object files
 $(OBJDIR)/%.o:$(SRCDIR)/%.c
@@ -131,6 +126,8 @@ $(MAIN_OBJS): $(HEADERS)
 
 # Rule to generate executable files
 $(EXEC) : $(OBJS)
+	@echo 
+	@echo "----- Compilation et génération du programme principal -----"
 	$(CC) $(OBJS) -o $@ $(LDFLAGS)
 
 # Rule to compile and generate libraries (using the sub Makefile in libs)
