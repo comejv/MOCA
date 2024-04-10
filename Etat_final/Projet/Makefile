@@ -34,7 +34,7 @@ RESDIR=resultats
 TESTDIR=auto_tests
 AFLOUTDIR=$(TESTDIR)/afl_out
 AFLDIR=methode/fuzzer/AFLplusplus
-PROFILERDIR=methode/profiler
+PROFILERDIR=profiler
 
 # Files names : sources, headers, objects, objects that correspond to an executable file name, and executable files
 SRCS=$(wildcard $(SRCDIR)/*.c)
@@ -45,8 +45,7 @@ EXEC=$(MAIN_OBJS:$(OBJDIR)/%.o=$(EXECDIR)/%)
 
 # Debug mode : 
 # -g to be able to run gdb
-# -DDEBUG to define the DEBUG macro in source files
-# DEBUG=1 option passed to the sub Makefile (used to generate libraries) to activate debug mode in libraries source files too
+# -DFDEBUG to define the FDEBUG macro in source files, corresponding to macro from macro.h
 ifdef DEBUG
 CFLAGS+=-g 
 ifeq ($(DEBUG),LIBS)
@@ -71,15 +70,17 @@ SYSTEST=GCOV=1 ASAN=1
 
 AFLTEST=AFL_USE_ASAN=1 AFL_DONT_OPTIMIZE=1 ASAN=1 AFL=1
 
+
+# always stack protector
+CFLAGS+=-fstack-protector-all
+LDFLAGS+=-fstack-protector-all
+
+# Add options that we need for each differents defined
 ifdef GCOV 
 	OPTGCOV=-fprofile-arcs -ftest-coverage
 	CFLAGS+=$(OPTGCOV)
 	LDFLAGS+=$(OPTGCOV)
 endif
-
-# always stack protector
-CFLAGS+=-fstack-protector-all
-LDFLAGS+=-fstack-protector-all
 
 ifdef ASAN
 	CFLAGS+=-fsanitize=address -g
@@ -131,7 +132,6 @@ $(EXEC) : $(OBJS)
 	$(CC) $(OBJS) -o $@ $(LDFLAGS)
 
 # Rule to compile and generate libraries (using the sub Makefile in libs)
-# && is used to execute several commands in a row and in the same shell (otherwise every process is run on a different shell)
 # $(MAKE) is a standard variable containing the make command (used to avoid conflicts with other potentially defined make variables)
 lib:
 	@echo
@@ -148,6 +148,7 @@ unitest:
 	@echo "----- Compilation des tests + leurs lancements -----"
 	$(MAKE) -C $(TESTDIR) $(UNITEST)
 
+# Rule to launch system tests and if specified show it coverage
 systest:
 	$(MAKE) cleanall
 	$(MAKE) $(SYSTEST)
@@ -156,12 +157,16 @@ ifeq ($(findstring GCOV=1,$(SYSTEST)),GCOV=1)
 	$(MAKE) showCov
 endif
 
+# Rule to compile and launch fuzzer AFL++
 afltest:
 	$(MAKE) cleanall
 	$(MAKE) -C $(AFLDIR)
 	$(MAKE) $(AFLTEST)
 	AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1 AFL_SKIP_CPUFREQ=1 AFL_USE_ASAN=1 $(AFLDIR)/afl-fuzz -D -i ./exemples/afl/ -o $(AFLOUTDIR) $(EXEC) @@
 
+
+# Rule to compile for profiler gprof exigence (needed to not compile the library in shared) and launch the profiling with gprof 
+# If specified with GRAPH=1 we can have call graph in png 
 gprof:
 	$(MAKE) cleanall
 	$(MAKE) GPROF=1 STATIC=1
@@ -185,10 +190,11 @@ ensureDirs:
 	@mkdir -p $(RESDIR)
 	@mkdir -p $(AFLOUTDIR)
 
+# Rule to show coverage of each sources files 
 showCov:
 	@gcov -b -o $(OBJDIR) -c $(SRCS)
 
-# Rule to clean the workspace + libs + auto_test
+# Rule to clean the workspace + libs + auto_test + methode/fuzzer/AFLplusplus
 cleanall :
 	@echo "----- Nettoyage des objets, des exécutables et de la documentation -----"
 	-rm -r $(OBJDIR)/*.o $(EXEC) $(DOCDIR)/*/ 2> /dev/null
@@ -212,6 +218,7 @@ cleanall :
 # Rule to clean the workspace
 # The LIBCLEAN option can be specified in command line to also clean the libraries (libs) subdirectory (through the sub Makefile)
 # The TESTCLEAN option can be specified in command line to also clean the auto tests (auto_tests) subdirectory (through the sub Makefile)
+# The AFLCLEAN option can be specified in command line to also clean the AFL++ (methode/fuzzer/AFLplusplus) subdirectory (through the sub Makefile)
 clean :
 	@echo "----- Nettoyage des objets, des exécutables et de la documentation -----"
 	-rm -r $(OBJDIR)/*.o $(EXEC) $(DOCDIR)/*/ 2> /dev/null
@@ -226,4 +233,8 @@ ifdef TESTCLEAN
 	@echo "----- Nettoyage du repertoire auto_tests -----"
 	$(MAKE) -C $(TESTDIR) clean
 endif
-
+ifdef AFLCLEAN
+	@echo
+	@echo "----- Nettoyage du repertoire methode/fuzzer/AFLplusplus -----"
+	$(MAKE) -C $(AFLDIR) clean
+endif

@@ -79,7 +79,10 @@ ifdef AFL
 		CC=afl-gcc-fast
 	endif
 endif
-
+ifdef GPROF
+	CFLAGS += -pg
+	LDFLAGS += -pg
+endif
 # Library names
 DISPLAY_LIB_NAME := $(LIBDIR)/libdisplay$(LIB_EXT)
 SERIALIZATION_LIB_NAME := $(LIBDIR)/libserialization$(LIB_EXT)
