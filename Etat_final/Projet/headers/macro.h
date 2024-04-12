@@ -6,6 +6,7 @@
 #ifndef __MACRO_H
 #define __MACRO_H
 
+#ifdef FDEBUG
 /**
  * @def DEBUG(feat, ...)
  * @brief Conditional debug macro.
@@ -22,6 +23,10 @@
  * parameter matches the value of the `FDEBUG` macro will be shown. The `FDEBUG`
  * macro is defined in the Makefile, depends on the value of the `DEBUG`
  * parameter given when calling make. Otherwise, the macro does nothing.
+ *
+ * @cond INTERNAL
+ * FDEBUG is expected to be defined at compile time.
+ * @endcond
  *
  * @example
  *
@@ -44,20 +49,22 @@
  * DEBUG(JOBS, "Calling job %d", 3)
  * ```
  */
-#ifdef FDEBUG
-#define DEBUG(feat, ...)                                                       \
-  do {                                                                         \
-    if (!FDEBUG || !feat || feat == FDEBUG) {                                  \
-      fprintf(stderr, "%s:%d -> ", __FILE__, __LINE__);                        \
-      fprintf(stderr, __VA_ARGS__);                                            \
-      fflush(stderr);                                                          \
-    }                                                                          \
-  } while (0)
+#define DEBUG(feat, ...)                                      \
+    do                                                        \
+    {                                                         \
+        if (!FDEBUG || !feat || feat == FDEBUG)               \
+        {                                                     \
+            fprintf(stderr, "%s:%d -> ", __FILE__, __LINE__); \
+            fprintf(stderr, __VA_ARGS__);                     \
+            fflush(stderr);                                   \
+        }                                                     \
+    } while (0)
 #else
-#define DEBUG(...)                                                             \
-  do {                                                                         \
-  } while (0)
-#endif // FDEBUG
+#define DEBUG(...) \
+    do             \
+    {              \
+    } while (0)
+#endif   // FDEBUG
 
 /**
  * @def ERROR(errcode, ...)
@@ -71,45 +78,47 @@
  * @param ... Variable number of arguments to be formatted and printed.
  *
  */
-#define ERROR(errcode, ...)                                                    \
-  do {                                                                         \
-    fprintf(stderr, "%s:%d -> ", __FILE__, __LINE__);                          \
-    fprintf(stderr, __VA_ARGS__);                                              \
-    fflush(stderr);                                                            \
-  } while (0);                                                                 \
-  fprintf(stderr, "Code d'erreur : %d - ", errcode);                           \
-  switch(errcode) {                                                            \
-    case FILEOPENFAIL:                                                         \
-      fprintf(stderr, "FILEOPENFAIL\n");                                       \
-      break;                                                                   \
-    case NULLPOINTER:                                                          \
-      fprintf(stderr, "NULLPOINTER\n");                                        \
-      break;                                                                   \
-    case MALLOCFAIL:                                                           \
-      fprintf(stderr, "MALLOCFAIL\n");                                         \
-      break;                                                                   \
-    case WORDTOOLONG:                                                          \
-      fprintf(stderr, "WORDTOOLONG\n");                                        \
-      break;                                                                   \
-    case NOTASCII:                                                             \
-      fprintf(stderr, "NOTASCII\n");                                             \
-      break;                                                                   \
-    default:                                                                   \
-      fprintf(stderr, "Unknown error\n");                                      \
-  }                                                                            \
-  exit(errcode); 
+#define ERROR(errcode, ...)                                \
+    do                                                     \
+    {                                                      \
+        fprintf(stderr, "%s:%d -> ", __FILE__, __LINE__);  \
+        fprintf(stderr, __VA_ARGS__);                      \
+        fflush(stderr);                                    \
+        fprintf(stderr, "Code d'erreur : %d - ", errcode); \
+        switch (errcode)                                   \
+        {                                                  \
+        case FILEOPENFAIL:                                 \
+            fprintf(stderr, "FILEOPENFAIL\n");             \
+            break;                                         \
+        case NULLPOINTER:                                  \
+            fprintf(stderr, "NULLPOINTER\n");              \
+            break;                                         \
+        case MALLOCFAIL:                                   \
+            fprintf(stderr, "MALLOCFAIL\n");               \
+            break;                                         \
+        case WORDTOOLONG:                                  \
+            fprintf(stderr, "WORDTOOLONG\n");              \
+            break;                                         \
+        case NOTASCII:                                     \
+            fprintf(stderr, "NOTASCII\n");                 \
+            break;                                         \
+        default:                                           \
+            fprintf(stderr, "Unknown error\n");            \
+        }                                                  \
+        exit(errcode);                                     \
+    } while (0);
 
 #define ALWAYS 0
-#define LIBS 1
-#define DICO 2
-#define WORD 3
-#define HASH 4
+#define LIBS   1
+#define DICO   2
+#define WORD   3
+#define HASH   4
 
 // error codes
 #define FILEOPENFAIL 1
-#define NULLPOINTER 2
-#define MALLOCFAIL 3
-#define WORDTOOLONG 4
-#define NOTASCII 5
+#define NULLPOINTER  2
+#define MALLOCFAIL   3
+#define WORDTOOLONG  4
+#define NOTASCII     5
 
-#endif // __MACRO_H
+#endif   // __MACRO_H
