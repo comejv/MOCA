@@ -106,7 +106,7 @@
             fprintf(stderr, "Unknown error\n");            \
         }                                                  \
         exit(errcode);                                     \
-    } while (0);
+    } while (0)
 
 #define ALWAYS 0
 #define LIBS   1
